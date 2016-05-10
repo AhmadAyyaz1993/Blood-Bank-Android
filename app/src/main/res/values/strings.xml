@@ -3,4 +3,5 @@
 
     <string name="dummy_button">Donate Blood</string>
     <string name="dummy_content">Blood Bank</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
