@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import net.net76.mannan.bloodbank.adapters.DonnorsListAdapter;
 import net.net76.mannan.bloodbank.datatypes.Donnors;
@@ -26,6 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     GridView donnorsGridView;
+    TextView no_record_text_view;
     ArrayList<Donnors> array_donnors_data ;
 
     @Override
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private  void initializeViews(){
         array_donnors_data = new ArrayList<Donnors>();
         donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
+        no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
     }
 
     private void startInsertingInListView(){
@@ -116,20 +119,21 @@ public class MainActivity extends AppCompatActivity {
              JSONObject donnerObj;
 //            int error = jobj.getInt("error");
 
-            String email,bloodgroup,phonenum,city,country,_id;
+            String email,name,bloodgroup,phonenum,city,country,_id;
             List<Donnors> DONNERS_LIST = new ArrayList<Donnors>();
             Donnors donnors = new Donnors();
 //            donnersList = jobj.getJSONArray("leads");
             for (int i =0; i<jArray.length(); i++){
                 donnerObj = jArray.getJSONObject(i);
                 email = donnerObj.getString("email");
+                name = donnerObj.getString("username");
                 bloodgroup = donnerObj.getString("bloodgroup");
                 phonenum = donnerObj.getString("phonenum");
                 city = donnerObj.getString("city");
                 country = donnerObj.getString("country");
                 _id = donnerObj.getString("_id");
 
-                donnors.name = email.substring(1,4);
+                donnors.name = name;
                 donnors.email = email;
                 donnors.number = phonenum;
                 donnors.bloodGroup = bloodgroup;
@@ -174,9 +178,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-//            if (array_donnors_data.size() > 0){
+            if (array_donnors_data.size() > 0){
                 getArrayAdapter();
-//            }
+                no_record_text_view.setVisibility(View.GONE);
+            }else {
+                donnorsGridView.setVisibility(View.GONE);
+                no_record_text_view.setVisibility(View.GONE);
+            }
 
         }
     }

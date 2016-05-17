@@ -80,6 +80,7 @@ public class DonnorsListAdapter extends BaseAdapter {
         holder.blood_group.setText(new_array_donnors_data.get(position).bloodGroup);
         holder.blood_group.setBackgroundColor(Color.GREEN);
         holder.blood_group.setBackground(parent.getResources().getDrawable(R.drawable.circle_backgroud));
+
         holder.call_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

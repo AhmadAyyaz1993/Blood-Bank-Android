@@ -6,6 +6,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="name">Name</string>
     <string name="phone">Phone Number</string>
+    <string name="no_record_found">No record found.</string>
 
     <array name="dummy_list">
         <item>Abdul Mannan</item>
