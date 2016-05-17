@@ -1,25 +1,13 @@
-package net.net76.mannan.bloodbank;
+package net.net76.mannan.bloodbank.activity;
 
-import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 
-import java.util.Calendar;
+import net.net76.mannan.bloodbank.R;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Blood Bank</string>
 
-    <string name="dummy_button">Donate Blood</string>
+    <string name="dummy_button">Donate Blood for Life</string>
     <string name="dummy_content">Blood Bank</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone Number</string>
 
     <array name="dummy_list">
         <item>Abdul Mannan</item>
