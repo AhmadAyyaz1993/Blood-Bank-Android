@@ -303,9 +303,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success & loginRes.equals("true")) {
                 finish();
             } else {
-                mPasswordView.setError(loginResponse);
+                mEmailView.setError(loginResponse);
 //                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                mEmailView.requestFocus();
             }
         }
 
