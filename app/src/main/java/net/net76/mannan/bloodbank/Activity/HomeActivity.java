@@ -1,21 +1,26 @@
 package net.net76.mannan.bloodbank.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.adapters.DonnorsListAdapter;
 import net.net76.mannan.bloodbank.datatypes.Donnors;
-import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.network.Http_Request;
 
 import org.apache.http.NameValuePair;
@@ -23,10 +28,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     ProgressBar grid_progress_bar;
     GridView donnorsGridView;
@@ -36,22 +41,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.hide();
+        fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
             }
         });
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -67,46 +78,9 @@ public class MainActivity extends AppCompatActivity {
         no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
     }
 
-    private void startInsertingInListView(){
-//        List<Donnors> donnorsList = Donnors.listAll(Donnors.class);
-
-//        for (Donnors donnors:donnorsList) {
-//            getArrayValues(donnors.name, donnors.number);
-//            getArrayValues("Abdul Mannan", "03044422122", "AB+");
-//        }
-    }
-
-    public void getArrayValues(String name,String number,String bloodGroup){
-
-        List<Donnors> DONNERS_LIST = new ArrayList<Donnors>();
-
-        Donnors donnors = new Donnors();
-
-        donnors.name = name;
-        donnors.number = number;
-        donnors.bloodGroup = bloodGroup;
-
-        DONNERS_LIST.add(donnors);
-
-        array_donnors_data.addAll(0, DONNERS_LIST);
-//        Collections.sort(array_donnors_data, new ListDescComparator());
-    }
-
-    class ListDescComparator implements Comparator<Donnors> {
-
-        public int compare(Donnors app1, Donnors app2) {
-
-            if(Integer.parseInt(app1.getLastDonated()) < Integer.parseInt(app2.getLastDonated())){
-                return 1;
-            }
-            else
-                return -1;
-        }
-    };
-
     public void getArrayAdapter(){
         DonnorsListAdapter donnorsListAdapter = new DonnorsListAdapter(
-                                    this,array_donnors_data);
+                this,array_donnors_data);
         donnorsGridView.setAdapter(donnorsListAdapter);
     }
 
@@ -122,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             // Create Apache HttpClient
             jArray = new JSONArray(resultServer);
-             JSONObject donnerObj;
+            JSONObject donnerObj;
 //            int error = jobj.getInt("error");
 
 //            String email,name,bloodgroup,phonenum,city,country,_id;
@@ -151,7 +125,64 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class MyAsyncTask extends AsyncTask<Void,Void,Void>{
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private class MyAsyncTask extends AsyncTask<Void,Void,Void> {
 
         Context context;
         MyAsyncTask(Context context){
@@ -191,6 +222,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
 
 }
