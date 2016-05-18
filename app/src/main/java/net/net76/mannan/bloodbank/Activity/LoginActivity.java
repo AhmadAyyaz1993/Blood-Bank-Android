@@ -25,11 +25,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.net76.mannan.bloodbank.R;
+import net.net76.mannan.bloodbank.network.Http_Request;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 
 /**
@@ -41,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
+    private static final String[] CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
     /**
@@ -54,6 +60,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private String loginResponse;
+    private String loginRes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,12 +259,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private final String email;
+        private final String password;
 
         UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+            this.email = email;
+            this.password = password;
         }
 
         @Override
@@ -269,13 +278,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            loginDonnerHTTP(email,password);
+/*
+            for (String credential : CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
             }
+*/
 
             // TODO: register the new account here.
             return true;
@@ -286,10 +298,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            Toast.makeText(getApplicationContext(), ""+loginResponse, Toast.LENGTH_SHORT).show();
+
+            if (success & loginRes.equals("true")) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError(loginResponse);
+//                mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
         }
@@ -298,6 +313,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+
+    public void loginDonnerHTTP(String email,String password) {
+
+        final String FEED_URL = "https://fierce-plateau-60116.herokuapp.com/login";
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("password", password));
+
+        String resultServer = Http_Request.getHttpPost(FEED_URL, params);
+        JSONObject jObj;
+        try {
+
+            jObj = new JSONObject(resultServer);
+
+            loginRes = jObj.getString("res");//true for success
+            loginResponse = ""+jObj.getString("response");
+//            Toast.makeText(getApplicationContext(), ""+loginResponse, Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+//            Log.d("TAG", e.getLocalizedMessage());
+//            Toast.makeText(context, "lead sync catch:"+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

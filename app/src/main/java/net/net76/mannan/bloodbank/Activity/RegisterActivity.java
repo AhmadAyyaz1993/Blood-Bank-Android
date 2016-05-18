@@ -25,11 +25,19 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.net76.mannan.bloodbank.R;
+import net.net76.mannan.bloodbank.datatypes.Donnors;
+import net.net76.mannan.bloodbank.network.Http_Request;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 /**
@@ -47,13 +55,15 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private UserRegisterTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    private EditText mPasswordView,nameET,bloodGroupET,numberET,confirmPasswordET,cityET,countryET;
     private View mProgressView;
     private View mRegisterFormView;
+
+    private String registerResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +74,18 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        nameET = (EditText) findViewById(R.id.register_name);
+        bloodGroupET = (EditText) findViewById(R.id.register_blood_group);
+        numberET = (EditText) findViewById(R.id.register_number);
+        cityET = (EditText) findViewById(R.id.register_city);
+        countryET = (EditText) findViewById(R.id.register_country);
+        confirmPasswordET = (EditText) findViewById(R.id.register_confirm_password);
+        mPasswordView = (EditText) findViewById(R.id.register_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptRegister();
                     return true;
                 }
                 return false;
@@ -80,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptRegister();
             }
         });
 
@@ -108,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptRegister() {
         if (mAuthTask != null) {
             return;
         }
@@ -120,6 +136,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String confirm_password = confirmPasswordET.getText().toString();
+        String userName = nameET.getText().toString();
+        String phoneNum = numberET.getText().toString();
+        String bloodGroup = bloodGroupET.getText().toString();
+        String city  = cityET.getText().toString();
+        String country  = countryET.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -150,7 +172,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserRegisterTask(email,userName,phoneNum,bloodGroup,password,city,country);
             mAuthTask.execute((Void) null);
         }
     }
@@ -259,14 +281,25 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private final String email;
+        private final String password;
+        private final String userName;
+        private final String bloodGroup;
+        private final String phoneNum;
+        private final String country;
+        private final String city;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        UserRegisterTask(String email, String userName, String phoneNum,
+                         String bloodGroup, String password, String city, String country) {
+            this.email = email;
+            this.password = password;
+            this.userName = userName;
+            this.bloodGroup = bloodGroup;
+            this.phoneNum = phoneNum;
+            this.country = country;
+            this.city = city;
         }
 
         @Override
@@ -280,13 +313,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+            registerDonnerHTTP(email,userName,phoneNum,
+                    bloodGroup,password,city, country);
 
             // TODO: register the new account here.
             return true;
@@ -297,9 +325,17 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            Toast.makeText(getApplicationContext(), ""+registerResponse, Toast.LENGTH_SHORT).show();
+
+            if (success && registerResponse.equals("Successfully Registered")) {
                 finish();
-            } else {
+            } else if (success && registerResponse.equals("Password Weak")){
+                mPasswordView.setError("Must be Uppercase,lowercase,numeric & special character");
+                mPasswordView.requestFocus();
+            }else if (success && registerResponse.equals("Email Not Valid")){
+                mEmailView.setError(getString(R.string.error_invalid_email));
+                mEmailView.requestFocus();            }
+            else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
@@ -311,5 +347,34 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             showProgress(false);
         }
     }
+
+    public void registerDonnerHTTP(String email,String user_name,String phone_num,
+                                   String blood_group,String password,String city, String country) {
+
+        final String FEED_URL = "https://fierce-plateau-60116.herokuapp.com/register";
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("username", user_name));
+        params.add(new BasicNameValuePair("phonenum", phone_num));
+        params.add(new BasicNameValuePair("bloodgroup", blood_group));
+        params.add(new BasicNameValuePair("password", password));
+        params.add(new BasicNameValuePair("city", city));
+        params.add(new BasicNameValuePair("country", country));
+
+        String resultServer = Http_Request.getHttpPost(FEED_URL, params);
+        JSONObject jObj;
+        try {
+
+            jObj = new JSONObject(resultServer);
+
+            registerResponse = ""+jObj.getString("response");
+//            Toast.makeText(getApplicationContext(), ""+registerResponse, Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+//            Log.d("TAG", e.getLocalizedMessage());
+//            Toast.makeText(context, "lead sync catch:"+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 
