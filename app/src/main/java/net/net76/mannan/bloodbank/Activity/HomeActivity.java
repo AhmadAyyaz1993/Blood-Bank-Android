@@ -1,6 +1,7 @@
 package net.net76.mannan.bloodbank.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -150,7 +151,28 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_ab_positive) {
+            return true;
+        }
+        if (id == R.id.action_b_negative) {
+            return true;
+        }
+        if (id == R.id.action_a_positive) {
+            return true;
+        }
+        if (id == R.id.action_a_negative) {
+            return true;
+        }
+        if (id == R.id.action_b_positive) {
+            return true;
+        }
+        if (id == R.id.action_b_negative) {
+            return true;
+        }
+        if (id == R.id.action_o_positive) {
+            return true;
+        }
+        if (id == R.id.action_o_negative) {
             return true;
         }
 
@@ -163,10 +185,12 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
+        if (id == R.id.nav_register) {
+            Intent intent  = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_login) {
+            Intent intent  = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

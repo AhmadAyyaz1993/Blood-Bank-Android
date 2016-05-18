@@ -2,8 +2,43 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_ab_positive"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="AB+"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_ab_negative"
+        android:orderInCategory="100"
+        android:title="AB-"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_a_positive"
+        android:orderInCategory="100"
+        android:title="A+"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_a_negative"
+        android:orderInCategory="100"
+        android:title="A-"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_b_positive"
+        android:orderInCategory="100"
+        android:title="B+"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_b_negative"
+        android:orderInCategory="100"
+        android:title="B-"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_o_positive"
+        android:orderInCategory="100"
+        android:title="O+"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_o_negative"
+        android:orderInCategory="100"
+        android:title="O-"
         app:showAsAction="never" />
 </menu>
