@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.net76.mannan.bloodbank.adapters.DonnorsListAdapter;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    ProgressBar grid_progress_bar;
     GridView donnorsGridView;
     TextView no_record_text_view;
     ArrayList<Donnors> array_donnors_data ;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private  void initializeViews(){
         array_donnors_data = new ArrayList<Donnors>();
+        grid_progress_bar = (ProgressBar) findViewById(R.id.grid_progress_bar);
         donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
         no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
     }
@@ -119,30 +122,25 @@ public class MainActivity extends AppCompatActivity {
              JSONObject donnerObj;
 //            int error = jobj.getInt("error");
 
-            String email,name,bloodgroup,phonenum,city,country,_id;
-            List<Donnors> DONNERS_LIST = new ArrayList<Donnors>();
-            Donnors donnors = new Donnors();
+//            String email,name,bloodgroup,phonenum,city,country,_id;
+//            List<Donnors> DONNERS_LIST = new ArrayList<Donnors>();
+            Donnors donnors;
 //            donnersList = jobj.getJSONArray("leads");
             for (int i =0; i<jArray.length(); i++){
+                donnors = new Donnors();
                 donnerObj = jArray.getJSONObject(i);
-                email = donnerObj.getString("email");
-                name = donnerObj.getString("username");
-                bloodgroup = donnerObj.getString("bloodgroup");
-                phonenum = donnerObj.getString("phonenum");
-                city = donnerObj.getString("city");
-                country = donnerObj.getString("country");
-                _id = donnerObj.getString("_id");
+                donnors.email = donnerObj.getString("email");
+                donnors.name = donnerObj.getString("username");
+                donnors.bloodGroup = donnerObj.getString("bloodgroup");
+                donnors.number = donnerObj.getString("phonenum");
+                donnors.city = donnerObj.getString("city");
+                donnors.country = donnerObj.getString("country");
+                donnors._id = donnerObj.getString("_id");
 
-                donnors.name = name;
-                donnors.email = email;
-                donnors.number = phonenum;
-                donnors.bloodGroup = bloodgroup;
-                donnors.city = city;
-                donnors.country = country;
-                donnors._id = _id;
-                DONNERS_LIST.add(donnors);
+//                DONNERS_LIST.add(donnors);
+                array_donnors_data.add(donnors);
             }
-            array_donnors_data.addAll(0, DONNERS_LIST);
+//            array_donnors_data.addAll(0, DONNERS_LIST);
 
         } catch (Exception e) {
 //            Log.d("TAG", e.getLocalizedMessage());
@@ -163,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
 
             initializeViews();
-
+            grid_progress_bar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -180,10 +178,12 @@ public class MainActivity extends AppCompatActivity {
 
             if (array_donnors_data.size() > 0){
                 getArrayAdapter();
+                grid_progress_bar.setVisibility(View.GONE);
                 no_record_text_view.setVisibility(View.GONE);
             }else {
                 donnorsGridView.setVisibility(View.GONE);
-                no_record_text_view.setVisibility(View.GONE);
+                grid_progress_bar.setVisibility(View.GONE);
+                no_record_text_view.setVisibility(View.VISIBLE);
             }
 
         }

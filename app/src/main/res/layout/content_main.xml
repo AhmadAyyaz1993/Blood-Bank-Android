@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="20dp"
+        android:visibility="gone"
         android:gravity="center_horizontal"
         android:text="Blood Donners"/>
     <TextView
@@ -26,7 +27,13 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_marginTop="30dp"
+        android:visibility="gone"
         android:text="@string/no_record_found"/>
+    <ProgressBar
+        android:id="@+id/grid_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
     <GridView
         android:id="@+id/donners_grid_view"
         android:layout_width="match_parent"
