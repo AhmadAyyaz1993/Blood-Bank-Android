@@ -29,4 +29,8 @@
         completions."
     </string>
     <string name="blood_donnors">Blood Donnors</string>
+    <string name="title_activity_register">Register</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="blood_group">Blood Group</string>
 </resources>
