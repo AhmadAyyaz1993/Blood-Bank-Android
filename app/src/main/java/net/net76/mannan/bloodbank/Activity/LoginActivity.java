@@ -3,6 +3,7 @@ package net.net76.mannan.bloodbank.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.net76.mannan.bloodbank.PrefManager;
 import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.network.Http_Request;
 
@@ -64,11 +66,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String loginResponse;
     private String loginRes;
 
+    PrefManager prefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        prefManager = new PrefManager(getApplicationContext());
+
+        Intent intent;
+        if (prefManager.isLoggedIn()){
+            intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            // do nothing
+        }
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -301,6 +316,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Toast.makeText(getApplicationContext(), ""+loginResponse, Toast.LENGTH_SHORT).show();
 
             if (success & loginRes.equals("true")) {
+                prefManager.createLoginSession(email);
+                Intent intentUserProfile = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(intentUserProfile);
                 finish();
             } else {
                 mEmailView.setError(loginResponse);
@@ -331,8 +349,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             loginRes = jObj.getString("res");//true for success
             loginResponse = ""+jObj.getString("response");
+            String _id = "" + jObj.getString("_id");
+            String username = "" + jObj.getString("username");
+            String phonenumber = "" + jObj.getString("phonenumber");
+            String bloodgroup = "" + jObj.getString("bloodgroup");
+            String city = "" + jObj.getString("city");
+            String country = "" + jObj.getString("country");
+            String token = "" + jObj.getString("token");
+//            String email = "" + jObj.getString("email");
 //            Toast.makeText(getApplicationContext(), ""+loginResponse, Toast.LENGTH_SHORT).show();
-
+            prefManager.setUserId(_id);
+            prefManager.setUserName(username);
+            prefManager.setPhoneNumber(phonenumber);
+            prefManager.setBloodGroup(bloodgroup);
+            prefManager.setCity(city);
+            prefManager.setCity(country);
+            prefManager.setEmail(email);
+            prefManager.setHashKey(token);
         } catch (Exception e) {
 //            Log.d("TAG", e.getLocalizedMessage());
 //            Toast.makeText(context, "lead sync catch:"+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
