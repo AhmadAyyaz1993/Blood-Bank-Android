@@ -19,10 +19,13 @@ public class PrefManager {
     private static final String PREF_NAME = "BloodBank";
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String KEY_HASH_SESSION = "hashSessionKey";
-    private static final String KEY_CLIENT_ID = "clientID";
-    private static final String KEY_AGENT_ID = "agentID";
-    private static final String KEY_MOBILE = "mobile";
-    private static final String KEY_CLIENT_NAME = "name";
+    private static final String USER_ID = "userID";
+    private static final String USER_NAME = "username";
+    private static final String PHONE_NUMBER = "phonenumber";
+    private static final String BLOOD_GROUP = "bloodgroup";
+    private static final String CITY = "city";
+    private static final String COUNTRY = "country";
+    private static final String EMAIL = "email";
 
     // Constructor
     public PrefManager(Context context) {
@@ -45,28 +48,60 @@ public class PrefManager {
         editor.commit();
     }
 
-    public void setAgentId(String agentId) {
-        editor.putString(KEY_AGENT_ID, agentId);
+    public void setUserId(String userId) {
+        editor.putString(USER_ID, userId);
         editor.commit();
     }
-    public String getAgentId(){
-        return pref.getString(KEY_AGENT_ID, "");
+    public String getUserId(){
+        return pref.getString(USER_ID, "");
     }
 
-    public void setClientId(String clientId) {
-        editor.putString(KEY_CLIENT_ID, clientId);
+    public void setUserName(String userName) {
+        editor.putString(USER_NAME, userName);
         editor.commit();
     }
-    public String getClientId(){
-        return pref.getString(KEY_CLIENT_ID, "");
+    public String getUserName(){
+        return pref.getString(USER_NAME, "");
     }
 
-    public void setKEY_MOBILE(String mobile) {
-        editor.putString(KEY_MOBILE, mobile);
+    public void setPhoneNumber(String phoneNumber) {
+        editor.putString(PHONE_NUMBER, phoneNumber);
         editor.commit();
     }
-    public String getKEY_MOBILE(){
-        return pref.getString(KEY_MOBILE, "");
+    public String getPhoneNumber(){
+        return pref.getString(PHONE_NUMBER, "");
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        editor.putString(BLOOD_GROUP, bloodGroup);
+        editor.commit();
+    }
+    public String getBloodGroup(){
+        return pref.getString(BLOOD_GROUP, "");
+    }
+
+    public void setCity(String city) {
+        editor.putString(CITY, city);
+        editor.commit();
+    }
+    public String getCity(){
+        return pref.getString(CITY, "");
+    }
+
+    public void setCountry(String country) {
+        editor.putString(COUNTRY, country);
+        editor.commit();
+    }
+    public String getCountry(){
+        return pref.getString(COUNTRY, "");
+    }
+
+    public void setEmail(String email) {
+        editor.putString(EMAIL, email);
+        editor.commit();
+    }
+    public String getEmail(){
+        return pref.getString(EMAIL, "");
     }
 
     public void setHashKey(String hashKey) {
@@ -75,16 +110,6 @@ public class PrefManager {
     }
     public String getHashKey(){
         return pref.getString(KEY_HASH_SESSION, "");
-    }
-
-    public void setKeyClientName(String clientName) {
-        editor.putString(KEY_CLIENT_NAME, clientName);
-        editor.commit();
-    }
-
-    public String getKeyClientName() {
-
-        return pref.getString(KEY_CLIENT_NAME, "");
     }
 
     public boolean isLoggedIn() {

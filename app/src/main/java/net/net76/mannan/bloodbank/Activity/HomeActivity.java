@@ -120,7 +120,8 @@ public class HomeActivity extends AppCompatActivity
             }
 //            array_donnors_data.addAll(0, DONNERS_LIST);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
 //            Log.d("TAG", e.getLocalizedMessage());
 //            Toast.makeText(context, "lead sync catch:"+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
