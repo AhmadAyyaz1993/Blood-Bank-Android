@@ -14,6 +14,18 @@
         <item>Omer Shahzad</item>
         <item>Rao Faraz</item>
     </array>
+
+    <array name="blood_groups_list">
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>O+</item>
+        <item>O-</item>
+    </array>
+
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

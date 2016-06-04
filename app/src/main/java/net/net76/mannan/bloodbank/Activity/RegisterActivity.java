@@ -20,10 +20,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +61,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView,nameET,bloodGroupET,numberET,confirmPasswordET,cityET,countryET;
+    private Spinner bloodGroupSpinner;
+    private EditText mPasswordView,nameET,numberET,confirmPasswordET,cityET,countryET;
     private View mProgressView;
     private View mRegisterFormView;
 
@@ -75,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         populateAutoComplete();
 
         nameET = (EditText) findViewById(R.id.register_name);
-        bloodGroupET = (EditText) findViewById(R.id.register_blood_group);
+        bloodGroupSpinner = (Spinner) findViewById(R.id.register_blood_group);
         numberET = (EditText) findViewById(R.id.register_number);
         cityET = (EditText) findViewById(R.id.register_city);
         countryET = (EditText) findViewById(R.id.register_country);
@@ -134,35 +137,78 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        String confirm_password = confirmPasswordET.getText().toString();
         String userName = nameET.getText().toString();
+        String email = mEmailView.getText().toString();
         String phoneNum = numberET.getText().toString();
-        String bloodGroup = bloodGroupET.getText().toString();
+        final String[] bloodGroup = {""};
         String city  = cityET.getText().toString();
         String country  = countryET.getText().toString();
+        String password = mPasswordView.getText().toString();
+        String confirm_password = confirmPasswordET.getText().toString();
+
+        bloodGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
+                bloodGroup[0] = bloodGroupSpinner.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+        if (userName.equals("") && email.equals("") && phoneNum.equals("") && city.equals("")
+                && country.equals("") && password.equals("") && confirm_password.equals("")) {
+            nameET.setError(getString(R.string.error_field_required));
+            mEmailView.setError(getString(R.string.error_field_required));
+            numberET.setError(getString(R.string.error_field_required));
+            cityET.setError(getString(R.string.error_field_required));
+            countryET.setError(getString(R.string.error_field_required));
+            mPasswordView.setError(getString(R.string.error_field_required));
+            confirmPasswordET.setError(getString(R.string.error_field_required));
+            focusView = nameET;
             cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        } else if (userName.equals("")) {
+            nameET.setError("Enter Name");
+            focusView = nameET;
+            cancel = true;
+        } else if (email.equals("")) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
+            cancel = true;
+        } else if (phoneNum.equals("")) {
+            numberET.setError("Enter Phone Number");
+            focusView = numberET;
+            cancel = true;
+        } else if (bloodGroup.equals("")) {
+            Toast.makeText(getApplicationContext(), "Select Blood Group", Toast.LENGTH_LONG).show();
+        } else if (city.equals("")) {
+            cityET.setError("Mention your City");
+            focusView = cityET;
+            cancel = true;
+        } else if (country.equals("")) {
+            cityET.setError("Mention your City");
+            focusView = cityET;
+            cancel = true;
+            Toast.makeText(getApplicationContext(), "Mention your Country", Toast.LENGTH_LONG).show();
+        }else if (password.isEmpty() && confirm_password.isEmpty()) {
+            mPasswordView.setError("Enter Password & Confirm Password");
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!password.equals(confirm_password)) {
+            mPasswordView.setError("Password & Confirm Password doesn't match");
+            focusView = mPasswordView;
             cancel = true;
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        }
+        } /*else {
+            registerUser(userName, psswrd, emailid, firstname, lastname, uType, position1, city1, description1);
+        }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -172,14 +218,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserRegisterTask(email,userName,phoneNum,bloodGroup,password,city,country);
+            mAuthTask = new UserRegisterTask(email,userName,phoneNum, bloodGroup[0],password,confirm_password,city,country);
             mAuthTask.execute((Void) null);
         }
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean isPasswordValid(String password) {
@@ -285,6 +330,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         private final String email;
         private final String password;
+        private final String confirm_password;
         private final String userName;
         private final String bloodGroup;
         private final String phoneNum;
@@ -292,9 +338,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         private final String city;
 
         UserRegisterTask(String email, String userName, String phoneNum,
-                         String bloodGroup, String password, String city, String country) {
+                         String bloodGroup, String password, String confirm_password,
+                         String city, String country) {
             this.email = email;
             this.password = password;
+            this.confirm_password = confirm_password;
             this.userName = userName;
             this.bloodGroup = bloodGroup;
             this.phoneNum = phoneNum;

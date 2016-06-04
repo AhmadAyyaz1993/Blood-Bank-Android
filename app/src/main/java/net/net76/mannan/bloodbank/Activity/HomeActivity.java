@@ -19,6 +19,7 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import net.net76.mannan.bloodbank.PrefManager;
 import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.adapters.DonnorsListAdapter;
 import net.net76.mannan.bloodbank.datatypes.Donnors;
@@ -192,14 +193,9 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_login) {
             Intent intent  = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_logout) {
+            PrefManager prefManager = new PrefManager(getApplicationContext());
+            prefManager.logout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
