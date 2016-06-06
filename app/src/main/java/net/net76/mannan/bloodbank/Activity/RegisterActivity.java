@@ -67,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private View mRegisterFormView;
 
     private String registerResponse;
+    String bloodGroup = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,21 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         mRegisterFormView = findViewById(R.id.register_form);
         mProgressView = findViewById(R.id.register_progress);
+
+        bloodGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
+                bloodGroup = bloodGroupSpinner.getSelectedItem().toString();
+                //bloodGroup = bloodGroupSpinner.getItemAtPosition(position1).toString();
+                String a = ";";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(RegisterActivity.this, "nothing selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void populateAutoComplete() {
@@ -140,22 +156,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         String userName = nameET.getText().toString();
         String email = mEmailView.getText().toString();
         String phoneNum = numberET.getText().toString();
-        final String[] bloodGroup = {""};
         String city  = cityET.getText().toString();
         String country  = countryET.getText().toString();
         String password = mPasswordView.getText().toString();
         String confirm_password = confirmPasswordET.getText().toString();
-
-        bloodGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position1, long id) {
-                bloodGroup[0] = bloodGroupSpinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
 
         boolean cancel = false;
         View focusView = null;
@@ -206,7 +210,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        } /*else {
+        }
+        /*else {
             registerUser(userName, psswrd, emailid, firstname, lastname, uType, position1, city1, description1);
         }*/
 
@@ -218,7 +223,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserRegisterTask(email,userName,phoneNum, bloodGroup[0],password,confirm_password,city,country);
+            mAuthTask = new UserRegisterTask(email,userName,phoneNum, bloodGroup,password,confirm_password,city,country);
             mAuthTask.execute((Void) null);
         }
     }
