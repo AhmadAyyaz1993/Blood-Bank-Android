@@ -63,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private AutoCompleteTextView mEmailView;
     private Spinner bloodGroupSpinner;
     private EditText mPasswordView,nameET,numberET,confirmPasswordET,cityET,countryET;
+    TextView bloodGroupTV;
     private View mProgressView;
     private View mRegisterFormView;
 
@@ -84,6 +85,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         cityET = (EditText) findViewById(R.id.register_city);
         countryET = (EditText) findViewById(R.id.register_country);
         confirmPasswordET = (EditText) findViewById(R.id.register_confirm_password);
+        bloodGroupTV = (TextView) findViewById(R.id.register_blood_group_text_view);
         mPasswordView = (EditText) findViewById(R.id.register_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -187,8 +189,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             numberET.setError("Enter Phone Number");
             focusView = numberET;
             cancel = true;
-        } else if (bloodGroup.equals("")) {
+        } else if (bloodGroup.equals("Select Blood Group")) {
             Toast.makeText(getApplicationContext(), "Select Blood Group", Toast.LENGTH_LONG).show();
+            bloodGroupTV.setError("Select Blood Group");
+            focusView = bloodGroupTV;
+            cancel = true;
         } else if (city.equals("")) {
             cityET.setError("Mention your City");
             focusView = cityET;
@@ -380,17 +385,21 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
             Toast.makeText(getApplicationContext(), ""+registerResponse, Toast.LENGTH_SHORT).show();
 
-            if (success && registerResponse.equals("Successfully Registered")) {
-                finish();
-            } else if (success && registerResponse.equals("Password Weak")){
-                mPasswordView.setError("Must be Uppercase,lowercase,numeric & special character");
-                mPasswordView.requestFocus();
-            }else if (success && registerResponse.equals("Email Not Valid")){
-                mEmailView.setError(getString(R.string.error_invalid_email));
-                mEmailView.requestFocus();            }
-            else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            try {
+                if (success && registerResponse.equals("Successfully Registered")) {
+                    finish();
+                } else if (success && registerResponse.equals("Password Weak")){
+                    mPasswordView.setError("Must be Uppercase,lowercase,numeric & special character");
+                    mPasswordView.requestFocus();
+                }else if (success && registerResponse.equals("Email Not Valid")){
+                    mEmailView.setError(getString(R.string.error_invalid_email));
+                    mEmailView.requestFocus();            }
+                else {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+            }catch (Exception e){
+//                e.printStackTrace();
             }
         }
 

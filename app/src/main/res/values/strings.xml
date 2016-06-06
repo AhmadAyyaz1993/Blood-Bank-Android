@@ -16,6 +16,7 @@
     </array>
 
     <array name="blood_groups_list">
+        <item>Select Blood Group</item>
         <item>AB+</item>
         <item>AB-</item>
         <item>A+</item>
