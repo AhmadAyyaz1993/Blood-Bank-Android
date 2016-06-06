@@ -26,17 +26,20 @@
             android:layout_margin="@dimen/text_margin"
             android:text="User Email"/>
         <TextView
+            android:id="@+id/user_profile_blood_group"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/text_margin"
+            android:background="@drawable/circle_profile_background"
+            android:textColor="@color/colorAccent"
+            android:gravity="center"
+            android:text="User Blood Group"/>
+        <TextView
             android:id="@+id/user_profile_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:text="User Mobile"/>
-        <TextView
-            android:id="@+id/user_profile_blood_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="User Blood Group"/>
         <TextView
             android:id="@+id/user_profile_city"
             android:layout_width="wrap_content"

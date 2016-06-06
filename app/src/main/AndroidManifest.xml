@@ -70,9 +70,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.UserProfileActivity"
-            android:label="@string/title_activity_user_profile"
+            android:label=" "
             android:parentActivityName=".activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <!--android:label="@string/title_activity_user_profile"-->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.net76.mannan.bloodbank.activity.HomeActivity" />

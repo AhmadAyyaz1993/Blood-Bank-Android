@@ -35,8 +35,14 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    Toolbar toolbar;
+    PrefManager prefManager;
+    FloatingActionButton fab;
     ProgressBar grid_progress_bar;
     GridView donnorsGridView;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle toggle;
+    NavigationView navigationView;
     TextView no_record_text_view;
     ArrayList<Donnors> array_donnors_data ;
 
@@ -44,10 +50,34 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        initializeViews();
+        setSupportActionBar(toolbar);
+        setDrawerMenu();
+        fabButtonListner();
+    }
+
+    private  void initializeViews(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        prefManager = new PrefManager(getApplicationContext());
+        array_donnors_data = new ArrayList<Donnors>();
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        grid_progress_bar = (ProgressBar) findViewById(R.id.grid_progress_bar);
+        donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
+        no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+    }
+
+    private void setDrawerMenu() {
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void fabButtonListner() {
         fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,28 +86,12 @@ public class HomeActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         new MyAsyncTask(getApplicationContext()).execute();
-    }
-
-    private  void initializeViews(){
-        array_donnors_data = new ArrayList<Donnors>();
-        grid_progress_bar = (ProgressBar) findViewById(R.id.grid_progress_bar);
-        donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
-        no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
     }
 
     public void getArrayAdapter(){
@@ -194,7 +208,7 @@ public class HomeActivity extends AppCompatActivity
             Intent intent  = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
-            PrefManager prefManager = new PrefManager(getApplicationContext());
+            prefManager = new PrefManager(getApplicationContext());
             prefManager.logout();
         }
 
@@ -215,7 +229,6 @@ public class HomeActivity extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
 
-            initializeViews();
             grid_progress_bar.setVisibility(View.VISIBLE);
         }
 
