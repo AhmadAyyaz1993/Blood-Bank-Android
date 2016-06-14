@@ -30,12 +30,12 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <include layout="@layout/content_user_profile" />
+            <!--<include layout="@layout/content_user_profile" />-->
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <!--<include layout="@layout/content_user_profile" />-->
+    <include layout="@layout/content_user_profile" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

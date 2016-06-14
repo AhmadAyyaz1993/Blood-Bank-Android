@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_all"
+        android:orderInCategory="100"
+        android:title="All"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_ab_positive"
         android:orderInCategory="100"
         android:title="AB+"

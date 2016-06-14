@@ -288,12 +288,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 return false;
             }
 
-            loginDonnerHTTP(email,password);
+            try {
+                loginDonnerHTTP(email,password);
+            }catch (Exception e){
+            }
 /*
             for (String credential : CREDENTIALS) {
                 String[] pieces = credential.split(":");

@@ -29,52 +29,57 @@ import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Toolbar toolbar;
     PrefManager prefManager;
     FloatingActionButton fab;
     ProgressBar grid_progress_bar;
     GridView donnorsGridView;
-    DrawerLayout drawer;
-    ActionBarDrawerToggle toggle;
-    NavigationView navigationView;
     TextView no_record_text_view;
     ArrayList<Donnors> array_donnors_data ;
-
+    DonnorsListAdapter donnorsListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         initializeViews();
-        setSupportActionBar(toolbar);
-        setDrawerMenu();
-        fabButtonListner();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        new MyAsyncTask(getApplicationContext(),"All").execute();
     }
 
+/*
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new MyAsyncTask(getApplicationContext()).execute();
+    }
+*/
+
     private  void initializeViews(){
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         prefManager = new PrefManager(getApplicationContext());
         array_donnors_data = new ArrayList<Donnors>();
         fab = (FloatingActionButton) findViewById(R.id.fab);
         grid_progress_bar = (ProgressBar) findViewById(R.id.grid_progress_bar);
         donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
         no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-    }
-
-    private void setDrawerMenu() {
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+        fabButtonListner();
     }
 
     private void fabButtonListner() {
@@ -88,16 +93,18 @@ public class HomeActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        new MyAsyncTask(getApplicationContext()).execute();
+    public void getArrayAdapter(){
+        donnorsListAdapter = new DonnorsListAdapter(
+                this,array_donnors_data);
+        donnorsGridView.setAdapter(donnorsListAdapter);
     }
 
-    public void getArrayAdapter(){
+    public void getFilterArrayAdapter(String blood_group){
         DonnorsListAdapter donnorsListAdapter = new DonnorsListAdapter(
                 this,array_donnors_data);
         donnorsGridView.setAdapter(donnorsListAdapter);
+
+        donnorsListAdapter.getFilter().filter(blood_group);
     }
 
     public void donnersListFetchingHTTP() {
@@ -131,7 +138,9 @@ public class HomeActivity extends AppCompatActivity
                 donnors._id = donnerObj.getString("_id");
 
 //                DONNERS_LIST.add(donnors);
+
                 array_donnors_data.add(donnors);
+
             }
 //            array_donnors_data.addAll(0, DONNERS_LIST);
 
@@ -167,28 +176,40 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if (id == R.id.action_all) {
+            getFilterArrayAdapter("");
+            return true;
+        }
         if (id == R.id.action_ab_positive) {
+            getFilterArrayAdapter("AB+");
             return true;
         }
         if (id == R.id.action_b_negative) {
+            getFilterArrayAdapter("AB-");
             return true;
         }
         if (id == R.id.action_a_positive) {
+            getFilterArrayAdapter("A+");
             return true;
         }
         if (id == R.id.action_a_negative) {
+            getFilterArrayAdapter("A-");
             return true;
         }
         if (id == R.id.action_b_positive) {
+            getFilterArrayAdapter("B+");
             return true;
         }
         if (id == R.id.action_b_negative) {
+            getFilterArrayAdapter("B-");
             return true;
         }
         if (id == R.id.action_o_positive) {
+            getFilterArrayAdapter("O+");
             return true;
         }
         if (id == R.id.action_o_negative) {
+            getFilterArrayAdapter("O-");
             return true;
         }
 
@@ -220,8 +241,10 @@ public class HomeActivity extends AppCompatActivity
     private class MyAsyncTask extends AsyncTask<Void,Void,Void> {
 
         Context context;
-        MyAsyncTask(Context context){
+        String blood_group;
+        MyAsyncTask(Context context,String blood_group){
             this.context = context;
+            this.blood_group = blood_group;
         }
 
 
@@ -236,7 +259,10 @@ public class HomeActivity extends AppCompatActivity
         protected Void doInBackground(Void... params) {
 
 //            startInsertingInListView();
-            donnersListFetchingHTTP();
+            try {
+                donnersListFetchingHTTP();
+            }catch (Exception e){
+            }
             return null;
         }
 

@@ -371,8 +371,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 return false;
             }
 
-            registerDonnerHTTP(email,userName,phoneNum,
-                    bloodGroup,password,city, country);
+            try {
+                registerDonnerHTTP(email,userName,phoneNum,
+                        bloodGroup,password,city, country);
+            }catch (Exception e){
+            }
 
             // TODO: register the new account here.
             return true;

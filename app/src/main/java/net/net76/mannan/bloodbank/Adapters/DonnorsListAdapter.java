@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by MANNAN on 5/17/2016.
  */
-public class DonnorsListAdapter extends BaseAdapter {
+public class DonnorsListAdapter extends BaseAdapter implements Filterable {
 
 
     Context context;
@@ -101,4 +103,59 @@ public class DonnorsListAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint,FilterResults results) {
+                new_array_donnors_data = (ArrayList<Donnors>) results.values; // has the filtered values
+                notifyDataSetChanged();  // notifies the data with new filtered values
+            }
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
+                ArrayList<Donnors> FilteredArrList = new ArrayList<Donnors>();
+                if (new_array_donnors_data == null) {
+                    new_array_donnors_data = new ArrayList<Donnors>(new_array_donnors_data); // saves the original data in mOriginalValues
+                }
+                /********
+                 *
+                 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
+                 *  else does the Filtering and returns FilteredArrList(Filtered)
+                 *
+                 ********/
+                if (constraint == null || constraint.length() == 0) {
+                    // set the Original result to return
+                    results.count = new_array_donnors_data.size();
+                    results.values = new_array_donnors_data;
+                } else {
+                    constraint = constraint.toString().toLowerCase();
+                    for (int i = 0; i < new_array_donnors_data.size(); i++) {
+                        String data_blood_group = new_array_donnors_data.get(i).bloodGroup;
+                        if (data_blood_group.toLowerCase().equals(constraint.toString())) {
+                            FilteredArrList.add(
+                                    new Donnors(new_array_donnors_data.get(i).name,
+                                            new_array_donnors_data.get(i).number,
+                                            new_array_donnors_data.get(i).email,
+                                            new_array_donnors_data.get(i).bloodGroup,
+                                            new_array_donnors_data.get(i).city,
+                                            new_array_donnors_data.get(i).country,
+                                            new_array_donnors_data.get(i).lastDonated,
+                                            new_array_donnors_data.get(i).availability)
+                            );
+                        }else {
+                        }
+                    }
+                    // set the Filtered result to return
+                    results.count = FilteredArrList.size();
+                    results.values = FilteredArrList;
+                }
+                return results;
+            }
+        };
+        return filter;
+    }
+
 }
