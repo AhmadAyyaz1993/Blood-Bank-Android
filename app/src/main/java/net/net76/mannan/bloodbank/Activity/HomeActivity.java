@@ -46,6 +46,10 @@ public class HomeActivity extends AppCompatActivity
     TextView drawer_layout_user_name;
     ArrayList<Donnors> array_donnors_data ;
     DonnorsListAdapter donnorsListAdapter;
+    NavigationView navigationView;
+    MenuItem menuItemLogOut;
+    MenuItem menuItemLogIn;
+    Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +66,23 @@ public class HomeActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         headerView = navigationView.getHeaderView(0);
+        menu = navigationView.getMenu();
+        menuItemLogOut = (MenuItem) menu.findItem(R.id.nav_logout);
+        menuItemLogIn = (MenuItem) menu.findItem(R.id.nav_login);
         drawer_layout_user_blood_group = (TextView) headerView.findViewById(R.id.drawer_layout_user_blood_group);
         drawer_layout_user_name = (TextView) headerView.findViewById(R.id.drawer_layout_user_name);
         if (prefManager.isLoggedIn()){
             drawer_layout_user_blood_group.setText(prefManager.getBloodGroup());
             drawer_layout_user_name.setText(prefManager.getUserName()+" "+prefManager.getPhoneNumber());
+            menuItemLogIn.setTitle("Profile");
         }else {
             drawer_layout_user_blood_group.setText("Blood Bank");
             drawer_layout_user_name.setText("Donate Blood For Life");
+            menuItemLogOut.setVisible(false);
         }
 
         new MyAsyncTask(getApplicationContext(),"All").execute();
@@ -249,6 +258,8 @@ public class HomeActivity extends AppCompatActivity
             prefManager.logout();
             drawer_layout_user_blood_group.setText("Blood Bank");
             drawer_layout_user_name.setText("Donate Blood For Life");
+            menuItemLogOut.setVisible(false);
+            menuItemLogIn.setTitle("Login");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
