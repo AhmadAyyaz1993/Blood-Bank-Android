@@ -40,9 +40,13 @@ public class HomeActivity extends AppCompatActivity
     FloatingActionButton fab;
     ProgressBar grid_progress_bar;
     GridView donnorsGridView;
+    View headerView;
     TextView no_record_text_view;
+    TextView drawer_layout_user_blood_group;
+    TextView drawer_layout_user_name;
     ArrayList<Donnors> array_donnors_data ;
     DonnorsListAdapter donnorsListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,17 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        headerView = navigationView.getHeaderView(0);
+        drawer_layout_user_blood_group = (TextView) headerView.findViewById(R.id.drawer_layout_user_blood_group);
+        drawer_layout_user_name = (TextView) headerView.findViewById(R.id.drawer_layout_user_name);
+        if (prefManager.isLoggedIn()){
+            drawer_layout_user_blood_group.setText(prefManager.getBloodGroup());
+            drawer_layout_user_name.setText(prefManager.getUserName()+" "+prefManager.getPhoneNumber());
+        }else {
+            drawer_layout_user_blood_group.setText("Blood Bank");
+            drawer_layout_user_name.setText("Donate Blood For Life");
+        }
 
         new MyAsyncTask(getApplicationContext(),"All").execute();
     }
@@ -79,6 +94,7 @@ public class HomeActivity extends AppCompatActivity
         grid_progress_bar = (ProgressBar) findViewById(R.id.grid_progress_bar);
         donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
         no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
+
         fabButtonListner();
     }
 
@@ -184,7 +200,7 @@ public class HomeActivity extends AppCompatActivity
             getFilterArrayAdapter("AB+");
             return true;
         }
-        if (id == R.id.action_b_negative) {
+        if (id == R.id.action_ab_negative) {
             getFilterArrayAdapter("AB-");
             return true;
         }
@@ -231,6 +247,8 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             prefManager = new PrefManager(getApplicationContext());
             prefManager.logout();
+            drawer_layout_user_blood_group.setText("Blood Bank");
+            drawer_layout_user_name.setText("Donate Blood For Life");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -251,7 +269,6 @@ public class HomeActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             grid_progress_bar.setVisibility(View.VISIBLE);
         }
 

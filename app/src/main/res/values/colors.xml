@@ -2,13 +2,13 @@
 <resources>
     <!--<color name="colorPrimary">#3F51B5</color>-->
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
-    <color name="colorPrimary">#dde53333</color>
-    <color name="colorPrimaryDark">#e53333</color>
+    <color name="colorPrimary">#ab0000</color>
+    <color name="colorPrimaryDark">#790000</color>
     <color name="colorAccent">#e53333</color>
     <!--<color name="colorAccent">#FF4081</color>-->
 
     <color name="black_overlay">#66000000</color>
     <color name="red">#e53333</color>
-    <color name="lightRed">#cee53336</color>
+    <color name="lightRed">#ce9e0003</color>
     <color name="white">#ffff</color>
 </resources>
