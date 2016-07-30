@@ -7,12 +7,14 @@
     <string name="name">Name</string>
     <string name="phone">Phone Number</string>
     <string name="no_record_found">No record found.</string>
+    <string name="user_profile">Profile</string>
 
     <array name="dummy_list">
-        <item>Abdul Mannan</item>
-        <item>Ahmad Ayyaz</item>
-        <item>Omer Shahzad</item>
-        <item>Rao Faraz</item>
+        <item>23-Feb-2016</item>
+        <item>23-Feb-2016</item>
+        <item>23-Feb-z2016</item>
+        <item>23-Feb-2016</item>
+        <item>23-Feb-2016</item>
     </array>
 
     <array name="blood_groups_list">

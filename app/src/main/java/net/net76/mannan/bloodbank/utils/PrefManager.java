@@ -1,4 +1,4 @@
-package net.net76.mannan.bloodbank;
+package net.net76.mannan.bloodbank.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

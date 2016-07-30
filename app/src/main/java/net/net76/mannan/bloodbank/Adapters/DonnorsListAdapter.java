@@ -81,7 +81,7 @@ public class DonnorsListAdapter extends BaseAdapter implements Filterable {
         holder.number.setText(new_array_donnors_data.get(position).number);
         holder.blood_group.setText(new_array_donnors_data.get(position).bloodGroup);
         holder.blood_group.setBackgroundColor(Color.GREEN);
-        holder.blood_group.setBackground(parent.getResources().getDrawable(R.drawable.circle_backgroud));
+        holder.blood_group.setBackground(parent.getResources().getDrawable(R.drawable.circle_background));
 
         holder.call_button.setOnClickListener(new View.OnClickListener() {
             @Override

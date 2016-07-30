@@ -31,7 +31,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.net76.mannan.bloodbank.PrefManager;
+import net.net76.mannan.bloodbank.utils.PrefManager;
 import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.network.Http_Request;
 
@@ -366,7 +366,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             prefManager.setPhoneNumber(phonenumber);
             prefManager.setBloodGroup(bloodgroup);
             prefManager.setCity(city);
-            prefManager.setCity(country);
+            prefManager.setCountry(country);
             prefManager.setEmail(email);
             prefManager.setHashKey(token);
         } catch (Exception e) {

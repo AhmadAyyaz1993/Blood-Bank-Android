@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import net.net76.mannan.bloodbank.PrefManager;
+import net.net76.mannan.bloodbank.utils.PrefManager;
 import net.net76.mannan.bloodbank.R;
 
 public class UserProfileActivity extends AppCompatActivity {

@@ -19,7 +19,7 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import net.net76.mannan.bloodbank.PrefManager;
+import net.net76.mannan.bloodbank.utils.PrefManager;
 import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.adapters.DonnorsListAdapter;
 import net.net76.mannan.bloodbank.datatypes.Donnors;
@@ -29,7 +29,6 @@ import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
