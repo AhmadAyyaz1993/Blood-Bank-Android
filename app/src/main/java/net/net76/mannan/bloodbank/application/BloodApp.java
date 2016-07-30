@@ -1,0 +1,30 @@
+package net.net76.mannan.bloodbank.application;
+
+import android.app.Application;
+
+import com.orm.SugarContext;
+import com.splunk.mint.Mint;
+
+import net.net76.mannan.bloodbank.datatypes.MintSplunkKey;
+
+/**
+ * Created by MANNAN on 7/30/2016.
+ */
+public class BloodApp extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        SugarContext.init(this);
+
+        Mint.initAndStartSession(getApplicationContext(), MintSplunkKey.splunkKey);
+
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        SugarContext.terminate();
+    }
+
+}
