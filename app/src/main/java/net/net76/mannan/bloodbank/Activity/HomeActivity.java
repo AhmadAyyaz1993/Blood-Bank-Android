@@ -1,6 +1,9 @@
 package net.net76.mannan.bloodbank.activity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -253,17 +256,38 @@ public class HomeActivity extends AppCompatActivity
             Intent intent  = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
-            prefManager = new PrefManager(getApplicationContext());
-            prefManager.logout();
-            drawer_layout_user_blood_group.setText("Blood Bank");
-            drawer_layout_user_name.setText("Donate Blood For Life");
-            menuItemLogOut.setVisible(false);
-            menuItemLogIn.setTitle("Login");
+            logoutDialog();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void logoutDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Logout?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        prefManager = new PrefManager(getApplicationContext());
+                        prefManager.logout();
+                        drawer_layout_user_blood_group.setText("Blood Bank");
+                        drawer_layout_user_name.setText("Donate Blood For Life");
+                        menuItemLogOut.setVisible(false);
+                        menuItemLogIn.setTitle("Login");
+
+                        dialog.dismiss();
+
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
     }
 
     private class MyAsyncTask extends AsyncTask<Void,Void,Void> {
