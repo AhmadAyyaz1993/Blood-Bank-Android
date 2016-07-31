@@ -1,9 +1,11 @@
 package net.net76.mannan.bloodbank.adapters;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,10 +57,11 @@ public class DonnorsListAdapter extends BaseAdapter implements Filterable {
     }
 
     static class ViewHolder {
-        TextView name, number, blood_group;
-        ImageView call_button;
+        TextView nameTV, numberTV, bloodGroupTv, cityTv;
+        ImageView callButtonIV;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder holder;
@@ -67,23 +70,27 @@ public class DonnorsListAdapter extends BaseAdapter implements Filterable {
             convertView = layoutInflater.inflate(R.layout.donnors_list_item, null);
             holder = new ViewHolder();
 
-            holder.blood_group = (TextView) convertView.findViewById(R.id.donnor_blood_group);
-            holder.call_button = (ImageView) convertView.findViewById(R.id.donnor_call_icon);
-            holder.name = (TextView) convertView.findViewById(R.id.donnor_name);
-            holder.number = (TextView) convertView.findViewById(R.id.donnor_number);
+            holder.bloodGroupTv = (TextView) convertView.findViewById(R.id.donnor_blood_group);
+            holder.callButtonIV = (ImageView) convertView.findViewById(R.id.donnor_call_icon);
+            holder.nameTV = (TextView) convertView.findViewById(R.id.donnor_name);
+            holder.numberTV = (TextView) convertView.findViewById(R.id.donnor_number);
+            holder.cityTv = (TextView) convertView.findViewById(R.id.donnor_city);
 
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.name.setText(new_array_donnors_data.get(position).name);
-        holder.number.setText(new_array_donnors_data.get(position).number);
-        holder.blood_group.setText(new_array_donnors_data.get(position).bloodGroup);
-        holder.blood_group.setBackgroundColor(Color.GREEN);
-        holder.blood_group.setBackground(parent.getResources().getDrawable(R.drawable.circle_background));
+        holder.nameTV.setText(new_array_donnors_data.get(position).name);
+        holder.numberTV.setText(new_array_donnors_data.get(position).number);
+        holder.bloodGroupTv.setText(new_array_donnors_data.get(position).bloodGroup);
+        holder.cityTv.setText(new_array_donnors_data.get(position).city+", "+
+                              new_array_donnors_data.get(position).country);
 
-        holder.call_button.setOnClickListener(new View.OnClickListener() {
+        holder.bloodGroupTv.setBackgroundColor(Color.GREEN);
+        holder.bloodGroupTv.setBackground(parent.getResources().getDrawable(R.drawable.circle_background));
+
+        holder.callButtonIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String ph;

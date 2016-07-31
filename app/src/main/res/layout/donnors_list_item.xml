@@ -39,20 +39,43 @@
                 android:weightSum="2"
                 android:layout_weight="4"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/donnor_name"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:textSize="16dp"
-                    android:layout_weight="1"
-                    android:text="@string/name"/>
-                <TextView
-                    android:id="@+id/donnor_number"
-                    android:layout_width="wrap_content"
+                    android:weightSum="2"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/donnor_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:text="@string/name"/>
+                    <TextView
+                        android:id="@+id/donnor_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textSize="12dp"
+                        android:gravity="right"
+                        android:layout_weight="1"
+                        android:text="@string/phone"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:textSize="12dp"
-                    android:layout_weight="1"
-                    android:text="@string/phone"/>
+                    android:weightSum="1"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/donnor_city"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="@string/city"/>
+                </LinearLayout>
             </LinearLayout>
             <ImageView
                 android:id="@+id/donnor_call_icon"
