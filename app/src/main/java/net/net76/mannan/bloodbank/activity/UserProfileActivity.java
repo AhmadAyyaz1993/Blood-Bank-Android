@@ -2,7 +2,6 @@ package net.net76.mannan.bloodbank.activity;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,7 +27,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +36,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     TextView user_profile_name, user_profile_email, user_profile_blood_group;
     TextView user_profile_city, user_profile_country, user_profile_mobile,user_profile_lastdonated;
+    TextView last_donated_text_view;
     FloatingActionButton fab;
     ProgressBar lastDonatedprogressBar;
     ProgressBar lastDonatedListprogressBar;
@@ -65,6 +63,7 @@ public class UserProfileActivity extends AppCompatActivity {
         user_profile_mobile = (TextView) findViewById(R.id.user_profile_mobile);
         user_profile_blood_group = (TextView) findViewById(R.id.user_profile_blood_group);
         user_profile_city = (TextView) findViewById(R.id.user_profile_city);
+        last_donated_text_view = (TextView) findViewById(R.id.last_donated_text_view);
         user_profile_country = (TextView) findViewById(R.id.user_profile_country);
         user_profile_lastdonated = (TextView) findViewById(R.id.user_profile_lastdonated);
         lastDonatedprogressBar = (ProgressBar) findViewById(R.id.lastDonatedprogressBar);
@@ -115,9 +114,11 @@ public class UserProfileActivity extends AppCompatActivity {
                 formatedDate = df.format(new Date(datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth()));
                 String location = "" ;
                 location = etLocation.getText().toString() ;
-                if(!formatedDate.equals("")&&!formatedDate.equals("")){
+                if(!formatedDate.equals("")&&!location.equals("")){
                     new MyAsyncTaskAddLastDonated(getApplicationContext(),formatedDate,location).execute();
                     dialog2.dismiss();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Please fill all values.", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -184,6 +185,9 @@ public class UserProfileActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Saved Successfully.", Toast.LENGTH_SHORT).show();
                     prefManager.setLastDonatedAt(lastDonated);
                     prefManager.setLastDonatedDate(donationPlace);
+
+                    user_profile_lastdonated.setText(prefManager.getLastDonatedDate()+" @ "+prefManager.getLastDonatedAt());
+
                     new MyAsyncTaskLastDonatedHistory(getApplicationContext()).execute();
                 }else {
                     Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
@@ -250,6 +254,9 @@ public class UserProfileActivity extends AppCompatActivity {
                         R.layout.text, lastDonatedList);
                 lastDonatedHistoryList.setAdapter(adapter);
 
+                if (lastDonatedList.size() == 0){
+                    last_donated_text_view.setVisibility(View.GONE);
+                }
                 lastDonatedListprogressBar.setVisibility(View.GONE);
 
 

@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.net76.mannan.bloodbank.adapters.DonnorsListAdapter;
-import net.net76.mannan.bloodbank.datatypes.Donnors;
+import net.net76.mannan.bloodbank.model.Donnors;
 import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.network.Http_Request;
 

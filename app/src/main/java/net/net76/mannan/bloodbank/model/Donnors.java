@@ -1,4 +1,4 @@
-package net.net76.mannan.bloodbank.datatypes;
+package net.net76.mannan.bloodbank.model;
 
 import com.orm.SugarRecord;
 

@@ -33,12 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.net76.mannan.bloodbank.R;
-import net.net76.mannan.bloodbank.datatypes.Donnors;
 import net.net76.mannan.bloodbank.network.Http_Request;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 

@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.net76.mannan.bloodbank.activity.PhoneCallActivity;
-import net.net76.mannan.bloodbank.datatypes.Donnors;
+import net.net76.mannan.bloodbank.model.Donnors;
 import net.net76.mannan.bloodbank.R;
 
 import java.util.ArrayList;

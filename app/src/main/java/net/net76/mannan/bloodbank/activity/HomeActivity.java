@@ -1,7 +1,6 @@
 package net.net76.mannan.bloodbank.activity;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +24,7 @@ import android.widget.TextView;
 import net.net76.mannan.bloodbank.utils.PrefManager;
 import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.adapters.DonnorsListAdapter;
-import net.net76.mannan.bloodbank.datatypes.Donnors;
+import net.net76.mannan.bloodbank.model.Donnors;
 import net.net76.mannan.bloodbank.network.Http_Request;
 
 import org.apache.http.NameValuePair;
