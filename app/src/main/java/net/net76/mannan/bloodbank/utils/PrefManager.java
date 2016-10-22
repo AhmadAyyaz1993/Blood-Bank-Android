@@ -26,6 +26,8 @@ public class PrefManager {
     private static final String CITY = "city";
     private static final String COUNTRY = "country";
     private static final String EMAIL = "email";
+    private static final String LAST_DONATED_DATE = "lastDonatedDate";
+    private static final String LAST_DONATED_AT = "lastDonatedAt";
 
     // Constructor
     public PrefManager(Context context) {
@@ -100,8 +102,27 @@ public class PrefManager {
         editor.putString(EMAIL, email);
         editor.commit();
     }
+
     public String getEmail(){
         return pref.getString(EMAIL, "");
+    }
+
+    public void setLastDonatedDate(String last_donatedDate) {
+        editor.putString(LAST_DONATED_DATE, last_donatedDate);
+        editor.commit();
+    }
+
+    public String getLastDonatedDate(){
+        return pref.getString(LAST_DONATED_DATE, "");
+    }
+
+    public void setLastDonatedAt(String last_donatedDonatedAt) {
+        editor.putString(LAST_DONATED_AT, last_donatedDonatedAt);
+        editor.commit();
+    }
+
+    public String getLastDonatedAt(){
+        return pref.getString(LAST_DONATED_AT, "");
     }
 
     public void setHashKey(String hashKey) {

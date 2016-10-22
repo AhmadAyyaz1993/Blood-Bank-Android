@@ -3,10 +3,24 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last Donated History"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    <ProgressBar
+        android:id="@+id/lastDonatedListprogressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
     <ListView
         android:id="@+id/last_donated_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:entries="@array/dummy_list"/>
-
+        android:layout_marginTop="6dp"
+        />
+    <!--android:entries="@array/dummy_list"-->
 </LinearLayout>
