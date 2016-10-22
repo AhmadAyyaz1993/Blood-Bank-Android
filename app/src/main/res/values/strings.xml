@@ -8,6 +8,7 @@
     <string name="phone">Phone Number</string>
     <string name="no_record_found">No record found.</string>
     <string name="user_profile">Profile</string>
+    <string name="splunkKey">d5b5b488</string>
 
     <array name="dummy_list">
         <item>23-Feb-2016</item>

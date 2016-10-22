@@ -5,7 +5,7 @@ import android.app.Application;
 import com.orm.SugarContext;
 import com.splunk.mint.Mint;
 
-import net.net76.mannan.bloodbank.datatypes.MintSplunkKey;
+import net.net76.mannan.bloodbank.R;
 
 /**
  * Created by MANNAN on 7/30/2016.
@@ -17,7 +17,8 @@ public class BloodApp extends Application {
         super.onCreate();
         SugarContext.init(this);
 
-        Mint.initAndStartSession(getApplicationContext(), MintSplunkKey.splunkKey);
+        Mint.initAndStartSession(getApplicationContext(), getResources().getString(R.string.splunkKey));
+        // /MintSplunkKey.splunkKey);
 
     }
 
