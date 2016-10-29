@@ -152,21 +152,23 @@ public class HomeActivity extends AppCompatActivity
 //            List<Donnors> DONNERS_LIST = new ArrayList<Donnors>();
             Donnors donnors;
 //            donnersList = jobj.getJSONArray("leads");
-            for (int i =0; i<jArray.length(); i++){
+            for (int i =0; i<jArray.length(); i++) {
                 donnors = new Donnors();
                 donnerObj = jArray.getJSONObject(i);
-                donnors.email = donnerObj.getString("email");
-                donnors.name = donnerObj.getString("username");
-                donnors.bloodGroup = donnerObj.getString("bloodgroup");
-                donnors.number = donnerObj.getString("phonenum");
-                donnors.city = donnerObj.getString("city");
-                donnors.country = donnerObj.getString("country");
-                donnors._id = donnerObj.getString("_id");
-
+                donnors.availability = donnerObj.getString("available");
+                if (donnors.availability.equals("true")) {
+                    donnors.email = donnerObj.getString("email");
+                    donnors.name = donnerObj.getString("username");
+                    donnors.bloodGroup = donnerObj.getString("bloodgroup");
+                    donnors.number = donnerObj.getString("phonenum");
+                    donnors.city = donnerObj.getString("city");
+                    donnors.country = donnerObj.getString("country");
+                    donnors._id = donnerObj.getString("_id");
 //                DONNERS_LIST.add(donnors);
-
-                array_donnors_data.add(donnors);
-
+                    array_donnors_data.add(donnors);
+                }else {
+                    //do nothing
+                }
             }
 //            array_donnors_data.addAll(0, DONNERS_LIST);
 

@@ -1,4 +1,4 @@
-package net.net76.mannan.bloodbank.model;
+package net.net76.mannan.bloodbank.constants;
 
 /**
  * Created by MANNAN on 7/30/2016.
