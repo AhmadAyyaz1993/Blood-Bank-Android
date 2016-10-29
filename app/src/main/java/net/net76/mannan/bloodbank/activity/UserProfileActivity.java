@@ -6,11 +6,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -37,6 +39,7 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView user_profile_name, user_profile_email, user_profile_blood_group;
     TextView user_profile_city, user_profile_country, user_profile_mobile,user_profile_lastdonated;
     TextView last_donated_text_view;
+    SwitchCompat availabilitySwitch;
     FloatingActionButton fab;
     ProgressBar lastDonatedprogressBar;
     ProgressBar lastDonatedListprogressBar;
@@ -64,6 +67,7 @@ public class UserProfileActivity extends AppCompatActivity {
         user_profile_blood_group = (TextView) findViewById(R.id.user_profile_blood_group);
         user_profile_city = (TextView) findViewById(R.id.user_profile_city);
         last_donated_text_view = (TextView) findViewById(R.id.last_donated_text_view);
+        availabilitySwitch = (SwitchCompat) findViewById(R.id.available_switch);
         user_profile_country = (TextView) findViewById(R.id.user_profile_country);
         user_profile_lastdonated = (TextView) findViewById(R.id.user_profile_lastdonated);
         lastDonatedprogressBar = (ProgressBar) findViewById(R.id.lastDonatedprogressBar);
@@ -73,6 +77,20 @@ public class UserProfileActivity extends AppCompatActivity {
         lastDonatedListprogressBar.setVisibility(View.GONE);
         fabClickListner();
         textViewSetTexts();
+        availabilityToggleClick();
+    }
+
+    private void availabilityToggleClick() {
+        availabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                } else {
+                    // The toggle is disabled
+                }
+            }
+        });
     }
 
     private void fabClickListner() {
