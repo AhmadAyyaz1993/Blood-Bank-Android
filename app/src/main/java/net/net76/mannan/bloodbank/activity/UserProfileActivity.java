@@ -246,7 +246,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                 for (int i=0; i<jsonArray.length(); i++){
                     jsonObject = jsonArray.getJSONObject(i);
-                    lastDonatedList.add(i,jsonObject.getString("lastdonated")
+                    lastDonatedList.add(0,jsonObject.getString("lastdonated")
                             +"\n@ "+jsonObject.getString("donationplace"));
                 }
 
