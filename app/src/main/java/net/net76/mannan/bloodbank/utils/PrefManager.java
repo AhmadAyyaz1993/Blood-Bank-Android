@@ -28,6 +28,7 @@ public class PrefManager {
     private static final String EMAIL = "email";
     private static final String LAST_DONATED_DATE = "lastDonatedDate";
     private static final String LAST_DONATED_AT = "lastDonatedAt";
+    private static final String AVAIALABILITY = "availability";
 
     // Constructor
     public PrefManager(Context context) {
@@ -118,6 +119,15 @@ public class PrefManager {
 
     public void setLastDonatedAt(String last_donatedDonatedAt) {
         editor.putString(LAST_DONATED_AT, last_donatedDonatedAt);
+        editor.commit();
+    }
+
+    public String getAvaialability(){
+        return pref.getString(AVAIALABILITY, "");
+    }
+
+    public void setAvaialability(String avaialability) {
+        editor.putString(AVAIALABILITY, avaialability);
         editor.commit();
     }
 

@@ -81,16 +81,46 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void availabilityToggleClick() {
+        if (prefManager.getAvaialability().equals("true")
+                || prefManager.getAvaialability().equals("")){
+            availabilitySwitch.setChecked(true);
+        }else {
+            availabilitySwitch.setChecked(false);
+        }
         availabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
+                    new availabilityTask("true").execute();
                 } else {
-                    // The toggle is disabled
+                    new availabilityTask("false").execute();
                 }
             }
         });
+    }
+
+    public void availabilityHTTP(String availability) {
+
+        final String FEED_URL = "https://fierce-plateau-60116.herokuapp.com/updateavailability";
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("user_id", prefManager.getUserId()));
+        params.add(new BasicNameValuePair("availability", availability));
+
+        String resultServer = Http_Request.getHttpPost(FEED_URL, params);
+        JSONObject jObj;
+        try {
+            jObj = new JSONObject(resultServer);
+
+            String code = jObj.getString("code");
+            String response = jObj.getString("response");
+            if (code.equals("200")) {
+                prefManager.setAvaialability(availability);
+            }else {
+                Toast.makeText(this, ""+response, Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Exception:"+e, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void fabClickListner() {
@@ -218,6 +248,41 @@ public class UserProfileActivity extends AppCompatActivity {
 //            Toast.makeText(context, "lead sync catch:"+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public class availabilityTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String availavility;
+
+        availabilityTask(String availavility) {
+            this.availavility = availavility;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            try {
+                // Simulate network access.
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+
+            try {
+                availabilityHTTP(availavility);
+            }catch (Exception e){
+            }
+
+            // TODO: register the new account here.
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            super.onPostExecute(success);
+        }
+
     }
 
     private class MyAsyncTaskLastDonatedHistory extends AsyncTask<Void,Void,Void> {

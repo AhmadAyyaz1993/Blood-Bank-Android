@@ -359,6 +359,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String city = "" + jObj.getString("city");
             String country = "" + jObj.getString("country");
             String token = "" + jObj.getString("token");
+            String available = "" + jObj.getString("available");
 //            String email = "" + jObj.getString("email");
 //            Toast.makeText(getApplicationContext(), ""+loginResponse, Toast.LENGTH_SHORT).show();
             prefManager.setUserId(_id);
@@ -369,9 +370,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             prefManager.setCountry(country);
             prefManager.setEmail(email);
             prefManager.setHashKey(token);
+            prefManager.setAvaialability(available);
         } catch (Exception e) {
-//            Log.d("TAG", e.getLocalizedMessage());
-//            Toast.makeText(context, "lead sync catch:"+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
