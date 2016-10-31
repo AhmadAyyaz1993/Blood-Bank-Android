@@ -103,8 +103,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
         final String FEED_URL = "https://fierce-plateau-60116.herokuapp.com/updateavailability";
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("user_id", prefManager.getUserId()));
-        params.add(new BasicNameValuePair("availability", availability));
+        params.add(new BasicNameValuePair("id", prefManager.getUserId()));
+        params.add(new BasicNameValuePair("isavailable", availability));
 
         String resultServer = Http_Request.getHttpPost(FEED_URL, params);
         JSONObject jObj;
