@@ -142,7 +142,11 @@ public class UserProfileActivity extends AppCompatActivity {
         user_profile_blood_group.setText(prefManager.getBloodGroup());
         user_profile_city.setText(prefManager.getCity() + "," + prefManager.getCountry());
         user_profile_country.setText(prefManager.getCountry());
-        user_profile_lastdonated.setText(prefManager.getLastDonatedDate() + " @ " + prefManager.getLastDonatedAt());
+        if (prefManager.getLastDonatedAt().equals("") || prefManager.getLastDonatedAt().equals("")){
+            user_profile_lastdonated.setText("Never Donated.");
+        }else {
+            user_profile_lastdonated.setText(prefManager.getLastDonatedDate() + " @ " + prefManager.getLastDonatedAt());
+        }
     }
 
     public void addLastDonatedDateClick(View view) {
@@ -234,7 +238,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     prefManager.setLastDonatedAt(lastDonated);
                     prefManager.setLastDonatedDate(donationPlace);
 
-                    user_profile_lastdonated.setText(prefManager.getLastDonatedDate() + " @ " + prefManager.getLastDonatedAt());
+                    user_profile_lastdonated.setText(prefManager.getLastDonatedAt() + " @ " + prefManager.getLastDonatedDate());
 
                     new MyAsyncTaskLastDonatedHistory(getApplicationContext()).execute();
                 } else {

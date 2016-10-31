@@ -422,7 +422,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 JSONObject jsonObject;
 
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    jsonObject = jsonArray.getJSONObject(0);
+                    jsonObject = jsonArray.getJSONObject(jsonArray.length()-1);
 
                     prefManager.setLastDonatedDate(jsonObject.getString("lastdonated"));
                     prefManager.setLastDonatedAt(jsonObject.getString("donationplace"));

@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
                     android:gravity="left"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:layout_weight="1"
                     android:text="Last Donated"
                     android:id="@+id/textView" />
@@ -153,7 +153,7 @@
                     android:layout_margin="@dimen/text_margin"
                     android:gravity="left"
                     android:layout_weight="2"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:text="14 October 20016 @ SKMH"/>
             </LinearLayout>
         </LinearLayout>
