@@ -3,6 +3,7 @@ package net.net76.mannan.bloodbank.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -37,7 +38,11 @@ import net.net76.mannan.bloodbank.network.Http_Request;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import static net.net76.mannan.bloodbank.R.id.lastDonatedListprogressBar;
+import static net.net76.mannan.bloodbank.R.id.last_donated_text_view;
 
 
 /**
@@ -76,11 +81,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         prefManager = new PrefManager(getApplicationContext());
 
         Intent intent;
-        if (prefManager.isLoggedIn()){
-            intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+        if (prefManager.isLoggedIn()) {
+            intent = new Intent(getApplicationContext(), UserProfileActivity.class);
             startActivity(intent);
             finish();
-        }else {
+        } else {
             // do nothing
         }
 
@@ -294,8 +299,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             try {
-                loginDonnerHTTP(email,password);
-            }catch (Exception e){
+                loginDonnerHTTP(email, password);
+            } catch (Exception e) {
             }
 /*
             for (String credential : CREDENTIALS) {
@@ -316,7 +321,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            Toast.makeText(getApplicationContext(), ""+loginResponse, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "" + loginResponse, Toast.LENGTH_SHORT).show();
 
             if (success & loginRes.equals("true")) {
                 prefManager.createLoginSession(email);
@@ -337,7 +342,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public void loginDonnerHTTP(String email,String password) {
+    public void loginDonnerHTTP(String email, String password) {
 
         final String FEED_URL = "https://fierce-plateau-60116.herokuapp.com/login";
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -351,7 +356,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             jObj = new JSONObject(resultServer);
 
             loginRes = jObj.getString("res");//true for success
-            loginResponse = ""+jObj.getString("response");
+            loginResponse = "" + jObj.getString("response");
             String _id = "" + jObj.getString("_id");
             String username = "" + jObj.getString("username");
             String phonenumber = "" + jObj.getString("phonenumber");
@@ -371,8 +376,62 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             prefManager.setEmail(email);
             prefManager.setHashKey(token);
             prefManager.setAvaialability(available);
+
+            new MyAsyncTaskLastDonatedHistory(getApplicationContext()).execute();
         } catch (Exception e) {
         }
     }
+
+    private class MyAsyncTaskLastDonatedHistory extends AsyncTask<Void, Void, Void> {
+
+        Context context;
+        String resultServer;
+
+        MyAsyncTaskLastDonatedHistory(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                final String FEED_URL = "https://fierce-plateau-60116.herokuapp.com/lastdonatedlist";
+                List<NameValuePair> param = new ArrayList<NameValuePair>();
+                param.add(new BasicNameValuePair("userid", prefManager.getUserId()));
+
+                resultServer = Http_Request.getHttpPost(FEED_URL, param);
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            JSONArray jsonArray;
+
+            try {
+
+                jsonArray = new JSONArray(resultServer);
+                JSONObject jsonObject;
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    jsonObject = jsonArray.getJSONObject(0);
+
+                    prefManager.setLastDonatedDate(jsonObject.getString("lastdonated"));
+                    prefManager.setLastDonatedAt(jsonObject.getString("donationplace"));
+                }
+
+            } catch (Exception e) {
+            }
+        }
+    }
+
 }
 

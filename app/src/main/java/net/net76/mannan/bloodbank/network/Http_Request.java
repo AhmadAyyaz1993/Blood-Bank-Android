@@ -52,7 +52,7 @@ public class Http_Request {
         return str.toString();
     }
 
-    public static String getHttpPost(String url,List<NameValuePair> params) {
+    public static String getHttpPost(String url, List<NameValuePair> params) {
         StringBuilder str = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);

@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity
     TextView no_record_text_view;
     TextView drawer_layout_user_blood_group;
     TextView drawer_layout_user_name;
-    ArrayList<Donnors> array_donnors_data ;
+    ArrayList<Donnors> array_donnors_data;
     DonnorsListAdapter donnorsListAdapter;
     NavigationView navigationView;
     MenuItem menuItemLogOut;
@@ -76,17 +76,17 @@ public class HomeActivity extends AppCompatActivity
         menuItemLogIn = (MenuItem) menu.findItem(R.id.nav_login);
         drawer_layout_user_blood_group = (TextView) headerView.findViewById(R.id.drawer_layout_user_blood_group);
         drawer_layout_user_name = (TextView) headerView.findViewById(R.id.drawer_layout_user_name);
-        if (prefManager.isLoggedIn()){
+        if (prefManager.isLoggedIn()) {
             drawer_layout_user_blood_group.setText(prefManager.getBloodGroup());
-            drawer_layout_user_name.setText(prefManager.getUserName()+" "+prefManager.getPhoneNumber());
+            drawer_layout_user_name.setText(prefManager.getUserName() + " " + prefManager.getPhoneNumber());
             menuItemLogIn.setTitle("Profile");
-        }else {
+        } else {
             drawer_layout_user_blood_group.setText("Blood Bank");
             drawer_layout_user_name.setText("Donate Blood For Life");
             menuItemLogOut.setVisible(false);
         }
 
-        new MyAsyncTask(getApplicationContext(),"All").execute();
+        new MyAsyncTask(getApplicationContext(), "All").execute();
     }
 
 /*
@@ -97,7 +97,7 @@ public class HomeActivity extends AppCompatActivity
     }
 */
 
-    private  void initializeViews(){
+    private void initializeViews() {
         prefManager = new PrefManager(getApplicationContext());
         array_donnors_data = new ArrayList<Donnors>();
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -119,15 +119,15 @@ public class HomeActivity extends AppCompatActivity
         });
     }
 
-    public void getArrayAdapter(){
+    public void getArrayAdapter() {
         donnorsListAdapter = new DonnorsListAdapter(
-                this,array_donnors_data);
+                this, array_donnors_data);
         donnorsGridView.setAdapter(donnorsListAdapter);
     }
 
-    public void getFilterArrayAdapter(String blood_group){
+    public void getFilterArrayAdapter(String blood_group) {
         DonnorsListAdapter donnorsListAdapter = new DonnorsListAdapter(
-                this,array_donnors_data);
+                this, array_donnors_data);
         donnorsGridView.setAdapter(donnorsListAdapter);
 
         donnorsListAdapter.getFilter().filter(blood_group);
@@ -152,7 +152,7 @@ public class HomeActivity extends AppCompatActivity
 //            List<Donnors> DONNERS_LIST = new ArrayList<Donnors>();
             Donnors donnors;
 //            donnersList = jobj.getJSONArray("leads");
-            for (int i =0; i<jArray.length(); i++) {
+            for (int i = 0; i < jArray.length(); i++) {
                 donnors = new Donnors();
                 donnerObj = jArray.getJSONObject(i);
                 donnors.availability = donnerObj.getString("available");
@@ -166,14 +166,13 @@ public class HomeActivity extends AppCompatActivity
                     donnors._id = donnerObj.getString("_id");
 //                DONNERS_LIST.add(donnors);
                     array_donnors_data.add(donnors);
-                }else {
+                } else {
                     //do nothing
                 }
             }
 //            array_donnors_data.addAll(0, DONNERS_LIST);
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 //            Log.d("TAG", e.getLocalizedMessage());
 //            Toast.makeText(context, "lead sync catch:"+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -251,10 +250,10 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_register) {
-            Intent intent  = new Intent(getApplicationContext(), RegisterActivity.class);
+            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_login) {
-            Intent intent  = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             logoutDialog();
@@ -291,11 +290,12 @@ public class HomeActivity extends AppCompatActivity
         dialog.show();
     }
 
-    private class MyAsyncTask extends AsyncTask<Void,Void,Void> {
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
 
         Context context;
         String blood_group;
-        MyAsyncTask(Context context,String blood_group){
+
+        MyAsyncTask(Context context, String blood_group) {
             this.context = context;
             this.blood_group = blood_group;
         }
@@ -313,7 +313,7 @@ public class HomeActivity extends AppCompatActivity
 //            startInsertingInListView();
             try {
                 donnersListFetchingHTTP();
-            }catch (Exception e){
+            } catch (Exception e) {
             }
             return null;
         }
@@ -322,11 +322,11 @@ public class HomeActivity extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if (array_donnors_data.size() > 0){
+            if (array_donnors_data.size() > 0) {
                 getArrayAdapter();
                 grid_progress_bar.setVisibility(View.GONE);
                 no_record_text_view.setVisibility(View.GONE);
-            }else {
+            } else {
                 donnorsGridView.setVisibility(View.GONE);
                 grid_progress_bar.setVisibility(View.GONE);
                 no_record_text_view.setVisibility(View.VISIBLE);

@@ -5,7 +5,7 @@ import com.orm.SugarRecord;
 /**
  * Created by MANNAN on 5/17/2016.
  */
-public class Donnors extends SugarRecord{
+public class Donnors extends SugarRecord {
 
     public String _id;
     public String name;

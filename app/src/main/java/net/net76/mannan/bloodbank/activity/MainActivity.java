@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar grid_progress_bar;
     GridView donnorsGridView;
     TextView no_record_text_view;
-    ArrayList<Donnors> array_donnors_data ;
+    ArrayList<Donnors> array_donnors_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +60,14 @@ public class MainActivity extends AppCompatActivity {
         new MyAsyncTask(getApplicationContext()).execute();
     }
 
-    private  void initializeViews(){
+    private void initializeViews() {
         array_donnors_data = new ArrayList<Donnors>();
         grid_progress_bar = (ProgressBar) findViewById(R.id.grid_progress_bar);
         donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
         no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
     }
 
-    private void startInsertingInListView(){
+    private void startInsertingInListView() {
 //        List<Donnors> donnorsList = Donnors.listAll(Donnors.class);
 
 //        for (Donnors donnors:donnorsList) {
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
-    public void getArrayValues(String name,String number,String bloodGroup){
+    public void getArrayValues(String name, String number, String bloodGroup) {
 
         List<Donnors> DONNERS_LIST = new ArrayList<Donnors>();
 
@@ -96,17 +96,18 @@ public class MainActivity extends AppCompatActivity {
 
         public int compare(Donnors app1, Donnors app2) {
 
-            if(Integer.parseInt(app1.getLastDonated()) < Integer.parseInt(app2.getLastDonated())){
+            if (Integer.parseInt(app1.getLastDonated()) < Integer.parseInt(app2.getLastDonated())) {
                 return 1;
-            }
-            else
+            } else
                 return -1;
         }
-    };
+    }
 
-    public void getArrayAdapter(){
+    ;
+
+    public void getArrayAdapter() {
         DonnorsListAdapter donnorsListAdapter = new DonnorsListAdapter(
-                                    this,array_donnors_data);
+                this, array_donnors_data);
         donnorsGridView.setAdapter(donnorsListAdapter);
     }
 
@@ -122,14 +123,14 @@ public class MainActivity extends AppCompatActivity {
         try {
             // Create Apache HttpClient
             jArray = new JSONArray(resultServer);
-             JSONObject donnerObj;
+            JSONObject donnerObj;
 //            int error = jobj.getInt("error");
 
 //            String email,name,bloodgroup,phonenum,city,country,_id;
 //            List<Donnors> DONNERS_LIST = new ArrayList<Donnors>();
             Donnors donnors;
 //            donnersList = jobj.getJSONArray("leads");
-            for (int i =0; i<jArray.length(); i++){
+            for (int i = 0; i < jArray.length(); i++) {
                 donnors = new Donnors();
                 donnerObj = jArray.getJSONObject(i);
                 donnors.email = donnerObj.getString("email");
@@ -151,10 +152,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class MyAsyncTask extends AsyncTask<Void,Void,Void>{
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
 
         Context context;
-        MyAsyncTask(Context context){
+
+        MyAsyncTask(Context context) {
             this.context = context;
         }
 
@@ -179,11 +181,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if (array_donnors_data.size() > 0){
+            if (array_donnors_data.size() > 0) {
                 getArrayAdapter();
                 grid_progress_bar.setVisibility(View.GONE);
                 no_record_text_view.setVisibility(View.GONE);
-            }else {
+            } else {
                 donnorsGridView.setVisibility(View.GONE);
                 grid_progress_bar.setVisibility(View.GONE);
                 no_record_text_view.setVisibility(View.VISIBLE);

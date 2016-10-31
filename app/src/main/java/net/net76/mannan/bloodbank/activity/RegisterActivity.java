@@ -3,18 +3,16 @@ package net.net76.mannan.bloodbank.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,15 +27,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.net76.mannan.bloodbank.R;
 import net.net76.mannan.bloodbank.network.Http_Request;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -60,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     // UI references.
     private AutoCompleteTextView mEmailView;
     private Spinner bloodGroupSpinner;
-    private EditText mPasswordView,nameET,numberET,confirmPasswordET,cityET,countryET;
+    private EditText mPasswordView, nameET, numberET, confirmPasswordET, cityET, countryET;
     TextView bloodGroupTV;
     private View mProgressView;
     private View mRegisterFormView;
@@ -156,8 +154,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         String userName = nameET.getText().toString();
         String email = mEmailView.getText().toString();
         String phoneNum = numberET.getText().toString();
-        String city  = cityET.getText().toString();
-        String country  = countryET.getText().toString();
+        String city = cityET.getText().toString();
+        String country = countryET.getText().toString();
         String password = mPasswordView.getText().toString();
         String confirm_password = confirmPasswordET.getText().toString();
 
@@ -201,7 +199,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             focusView = cityET;
             cancel = true;
             Toast.makeText(getApplicationContext(), "Mention your Country", Toast.LENGTH_LONG).show();
-        }else if (password.isEmpty() && confirm_password.isEmpty()) {
+        } else if (password.isEmpty() && confirm_password.isEmpty()) {
             mPasswordView.setError("Enter Password & Confirm Password");
             focusView = mPasswordView;
             cancel = true;
@@ -226,7 +224,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserRegisterTask(email,userName,phoneNum, bloodGroup,password,confirm_password,city,country);
+            mAuthTask = new UserRegisterTask(email, userName, phoneNum, bloodGroup, password, confirm_password, city, country);
             mAuthTask.execute((Void) null);
         }
     }
@@ -370,9 +368,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             }
 
             try {
-                registerDonnerHTTP(email,userName,phoneNum,
-                        bloodGroup,password,city, country);
-            }catch (Exception e){
+                registerDonnerHTTP(email, userName, phoneNum,
+                        bloodGroup, password, city, country);
+            } catch (Exception e) {
             }
 
             // TODO: register the new account here.
@@ -384,22 +382,22 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             mAuthTask = null;
             showProgress(false);
 
-            Toast.makeText(getApplicationContext(), ""+registerResponse, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "" + registerResponse, Toast.LENGTH_SHORT).show();
 
             try {
                 if (success && registerResponse.equals("Successfully Registered")) {
                     finish();
-                } else if (success && registerResponse.equals("Password Weak")){
+                } else if (success && registerResponse.equals("Password Weak")) {
                     mPasswordView.setError("Must be Uppercase,lowercase,numeric & special character");
                     mPasswordView.requestFocus();
-                }else if (success && registerResponse.equals("Email Not Valid")){
+                } else if (success && registerResponse.equals("Email Not Valid")) {
                     mEmailView.setError(getString(R.string.error_invalid_email));
-                    mEmailView.requestFocus();            }
-                else {
+                    mEmailView.requestFocus();
+                } else {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 //                e.printStackTrace();
             }
         }
@@ -411,8 +409,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         }
     }
 
-    public void registerDonnerHTTP(String email,String user_name,String phone_num,
-                                   String blood_group,String password,String city, String country) {
+    public void registerDonnerHTTP(String email, String user_name, String phone_num,
+                                   String blood_group, String password, String city, String country) {
 
         final String FEED_URL = "https://fierce-plateau-60116.herokuapp.com/register";
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -430,7 +428,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
             jObj = new JSONObject(resultServer);
 
-            registerResponse = ""+jObj.getString("response");
+            registerResponse = "" + jObj.getString("response");
 //            Toast.makeText(getApplicationContext(), ""+registerResponse, Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {

@@ -31,7 +31,7 @@ public class DonnorsListAdapter extends BaseAdapter implements Filterable {
     private ArrayList<Donnors> array_donnors_data;
     private ArrayList<Donnors> new_array_donnors_data;
 
-    DonnorsListAdapter(){
+    DonnorsListAdapter() {
     }
 
     public DonnorsListAdapter(Context context, ArrayList<Donnors> array_donnors_data) {
@@ -77,15 +77,15 @@ public class DonnorsListAdapter extends BaseAdapter implements Filterable {
             holder.cityTv = (TextView) convertView.findViewById(R.id.donnor_city);
 
             convertView.setTag(holder);
-        }else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.nameTV.setText(new_array_donnors_data.get(position).name);
         holder.numberTV.setText(new_array_donnors_data.get(position).number);
         holder.bloodGroupTv.setText(new_array_donnors_data.get(position).bloodGroup);
-        holder.cityTv.setText(new_array_donnors_data.get(position).city+", "+
-                              new_array_donnors_data.get(position).country);
+        holder.cityTv.setText(new_array_donnors_data.get(position).city + ", " +
+                new_array_donnors_data.get(position).country);
 
         holder.bloodGroupTv.setBackgroundColor(Color.GREEN);
         holder.bloodGroupTv.setBackground(parent.getResources().getDrawable(R.drawable.circle_background));
@@ -116,10 +116,11 @@ public class DonnorsListAdapter extends BaseAdapter implements Filterable {
         Filter filter = new Filter() {
             @SuppressWarnings("unchecked")
             @Override
-            protected void publishResults(CharSequence constraint,FilterResults results) {
+            protected void publishResults(CharSequence constraint, FilterResults results) {
                 new_array_donnors_data = (ArrayList<Donnors>) results.values; // has the filtered values
                 notifyDataSetChanged();  // notifies the data with new filtered values
             }
+
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
@@ -152,7 +153,7 @@ public class DonnorsListAdapter extends BaseAdapter implements Filterable {
                                             new_array_donnors_data.get(i).lastDonated,
                                             new_array_donnors_data.get(i).availability)
                             );
-                        }else {
+                        } else {
                         }
                     }
                     // set the Filtered result to return

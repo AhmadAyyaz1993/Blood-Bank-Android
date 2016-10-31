@@ -37,7 +37,7 @@ import java.util.List;
 public class UserProfileActivity extends AppCompatActivity {
 
     TextView user_profile_name, user_profile_email, user_profile_blood_group;
-    TextView user_profile_city, user_profile_country, user_profile_mobile,user_profile_lastdonated;
+    TextView user_profile_city, user_profile_country, user_profile_mobile, user_profile_lastdonated;
     TextView last_donated_text_view;
     SwitchCompat availabilitySwitch;
     FloatingActionButton fab;
@@ -82,9 +82,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void availabilityToggleClick() {
         if (prefManager.getAvaialability().equals("true")
-                || prefManager.getAvaialability().equals("")){
+                || prefManager.getAvaialability().equals("")) {
             availabilitySwitch.setChecked(true);
-        }else {
+        } else {
             availabilitySwitch.setChecked(false);
         }
         availabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -115,11 +115,11 @@ public class UserProfileActivity extends AppCompatActivity {
             String response = jObj.getString("response");
             if (code.equals("200")) {
                 prefManager.setAvaialability(availability);
-            }else {
-                Toast.makeText(this, ""+response, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "" + response, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Exception:"+e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Exception:" + e, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -140,17 +140,17 @@ public class UserProfileActivity extends AppCompatActivity {
         user_profile_email.setText(prefManager.getEmail());
         user_profile_mobile.setText(prefManager.getPhoneNumber());
         user_profile_blood_group.setText(prefManager.getBloodGroup());
-        user_profile_city.setText(prefManager.getCity()+","+prefManager.getCountry());
+        user_profile_city.setText(prefManager.getCity() + "," + prefManager.getCountry());
         user_profile_country.setText(prefManager.getCountry());
-        user_profile_lastdonated.setText(prefManager.getLastDonatedDate()+" @ "+prefManager.getLastDonatedAt());
+        user_profile_lastdonated.setText(prefManager.getLastDonatedDate() + " @ " + prefManager.getLastDonatedAt());
     }
 
     public void addLastDonatedDateClick(View view) {
-        final Dialog dialog2=new Dialog(UserProfileActivity.this);
+        final Dialog dialog2 = new Dialog(UserProfileActivity.this);
         dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog2.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.string.app_name );
+        dialog2.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.string.app_name);
         dialog2.setContentView(R.layout.date_picker);
-        final DatePicker datePicker = (DatePicker) dialog2.findViewById( R.id.datePicker );
+        final DatePicker datePicker = (DatePicker) dialog2.findViewById(R.id.datePicker);
         final EditText etLocation = (EditText) dialog2.findViewById(R.id.locEditText);
         final Button btnDone = (Button) dialog2.findViewById(R.id.btnDone);
         final Button btnCancel = (Button) dialog2.findViewById(R.id.btnCancel);
@@ -160,12 +160,12 @@ public class UserProfileActivity extends AppCompatActivity {
                 SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
                 String formatedDate = "";
                 formatedDate = df.format(new Date(datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth()));
-                String location = "" ;
-                location = etLocation.getText().toString() ;
-                if(!formatedDate.equals("")&&!location.equals("")){
-                    new MyAsyncTaskAddLastDonated(getApplicationContext(),formatedDate,location).execute();
+                String location = "";
+                location = etLocation.getText().toString();
+                if (!formatedDate.equals("") && !location.equals("")) {
+                    new MyAsyncTaskAddLastDonated(getApplicationContext(), formatedDate, location).execute();
                     dialog2.dismiss();
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Please fill all values.", Toast.LENGTH_SHORT).show();
                 }
 
@@ -183,14 +183,14 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    private class MyAsyncTaskAddLastDonated extends AsyncTask<Void,Void,Void> {
+    private class MyAsyncTaskAddLastDonated extends AsyncTask<Void, Void, Void> {
 
         Context context;
         String lastDonated;
         String donationPlace;
         String resultServer;
 
-        MyAsyncTaskAddLastDonated(Context context,String lastDonated, String donationPlace){
+        MyAsyncTaskAddLastDonated(Context context, String lastDonated, String donationPlace) {
             this.context = context;
             this.lastDonated = lastDonated;
             this.donationPlace = donationPlace;
@@ -213,7 +213,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 param.add(new BasicNameValuePair("donationplace", donationPlace));
 
                 resultServer = Http_Request.getHttpPost(FEED_URL, param);
-            }catch (Exception e){
+            } catch (Exception e) {
             }
             return null;
         }
@@ -228,17 +228,17 @@ public class UserProfileActivity extends AppCompatActivity {
 
                 jObj = new JSONObject(resultServer);
 
-                response = ""+jObj.getString("response");
-                if (response.equals("Last Donated Added")){
+                response = "" + jObj.getString("response");
+                if (response.equals("Last Donated Added")) {
                     Toast.makeText(getApplicationContext(), "Saved Successfully.", Toast.LENGTH_SHORT).show();
                     prefManager.setLastDonatedAt(lastDonated);
                     prefManager.setLastDonatedDate(donationPlace);
 
-                    user_profile_lastdonated.setText(prefManager.getLastDonatedDate()+" @ "+prefManager.getLastDonatedAt());
+                    user_profile_lastdonated.setText(prefManager.getLastDonatedDate() + " @ " + prefManager.getLastDonatedAt());
 
                     new MyAsyncTaskLastDonatedHistory(getApplicationContext()).execute();
-                }else {
-                    Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "" + response, Toast.LENGTH_SHORT).show();
                 }
 
                 lastDonatedprogressBar.setVisibility(View.GONE);
@@ -271,7 +271,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
             try {
                 availabilityHTTP(availavility);
-            }catch (Exception e){
+            } catch (Exception e) {
             }
 
             // TODO: register the new account here.
@@ -285,12 +285,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    private class MyAsyncTaskLastDonatedHistory extends AsyncTask<Void,Void,Void> {
+    private class MyAsyncTaskLastDonatedHistory extends AsyncTask<Void, Void, Void> {
 
         Context context;
         String resultServer;
 
-        MyAsyncTaskLastDonatedHistory(Context context){
+        MyAsyncTaskLastDonatedHistory(Context context) {
             this.context = context;
         }
 
@@ -309,7 +309,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 param.add(new BasicNameValuePair("userid", prefManager.getUserId()));
 
                 resultServer = Http_Request.getHttpPost(FEED_URL, param);
-            }catch (Exception e){
+            } catch (Exception e) {
             }
             return null;
         }
@@ -327,17 +327,17 @@ public class UserProfileActivity extends AppCompatActivity {
                 jsonArray = new JSONArray(resultServer);
                 JSONObject jsonObject;
 
-                for (int i=0; i<jsonArray.length(); i++){
+                for (int i = 0; i < jsonArray.length(); i++) {
                     jsonObject = jsonArray.getJSONObject(i);
-                    lastDonatedList.add(0,jsonObject.getString("lastdonated")
-                            +"\n@ "+jsonObject.getString("donationplace"));
+                    lastDonatedList.add(0, jsonObject.getString("lastdonated")
+                            + "\n@ " + jsonObject.getString("donationplace"));
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
                         R.layout.text, lastDonatedList);
                 lastDonatedHistoryList.setAdapter(adapter);
 
-                if (lastDonatedList.size() == 0){
+                if (lastDonatedList.size() == 0) {
                     last_donated_text_view.setVisibility(View.GONE);
                 }
                 lastDonatedListprogressBar.setVisibility(View.GONE);

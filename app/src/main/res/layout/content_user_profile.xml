@@ -154,7 +154,7 @@
                     android:gravity="left"
                     android:layout_weight="2"
                     android:maxLines="1"
-                    android:text="0000-00-00 @ Shoukat Khanam Memorial Hospital"/>
+                    android:text="14 October 20016 @ SKMH"/>
             </LinearLayout>
         </LinearLayout>
         <RelativeLayout

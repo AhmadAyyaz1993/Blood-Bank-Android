@@ -1,90 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
         android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp">
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
-            android:weightSum="6"
-            android:orientation="horizontal">
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
             <TextView
                 android:id="@+id/donnor_blood_group"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="AB+"
-                android:gravity="center"
-                android:textColor="@color/white"
                 android:background="@drawable/circle_background"
-                />
+                android:gravity="center"
+                android:text="AB+"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="6dp"
                 android:layout_marginLeft="6dp"
-                android:weightSum="2"
+                android:layout_marginTop="6dp"
                 android:layout_weight="4"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="2">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:weightSum="2"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:weightSum="2">
+
                     <TextView
                         android:id="@+id/donnor_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
-                        android:singleLine="true"
                         android:layout_weight="1"
-                        android:text="@string/name"/>
+                        android:singleLine="true"
+                        android:text="@string/name"
+                        android:textSize="16dp" />
+
                     <TextView
                         android:id="@+id/donnor_number"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:textSize="12dp"
-                        android:gravity="right"
                         android:layout_weight="1"
-                        android:text="@string/phone"/>
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:text="@string/phone"
+                        android:textSize="12dp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:weightSum="1"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:weightSum="1">
+
                     <TextView
                         android:id="@+id/donnor_city"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
                         android:layout_weight="1"
                         android:singleLine="true"
-                        android:text="@string/city"/>
+                        android:text="@string/city"
+                        android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
+
             <ImageView
                 android:id="@+id/donnor_call_icon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:src="@android:drawable/ic_menu_call"
-                />
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_menu_call" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

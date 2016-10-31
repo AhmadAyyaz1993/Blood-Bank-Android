@@ -55,7 +55,8 @@ public class PrefManager {
         editor.putString(USER_ID, userId);
         editor.commit();
     }
-    public String getUserId(){
+
+    public String getUserId() {
         return pref.getString(USER_ID, "");
     }
 
@@ -63,7 +64,8 @@ public class PrefManager {
         editor.putString(USER_NAME, userName);
         editor.commit();
     }
-    public String getUserName(){
+
+    public String getUserName() {
         return pref.getString(USER_NAME, "");
     }
 
@@ -71,7 +73,8 @@ public class PrefManager {
         editor.putString(PHONE_NUMBER, phoneNumber);
         editor.commit();
     }
-    public String getPhoneNumber(){
+
+    public String getPhoneNumber() {
         return pref.getString(PHONE_NUMBER, "");
     }
 
@@ -79,7 +82,8 @@ public class PrefManager {
         editor.putString(BLOOD_GROUP, bloodGroup);
         editor.commit();
     }
-    public String getBloodGroup(){
+
+    public String getBloodGroup() {
         return pref.getString(BLOOD_GROUP, "");
     }
 
@@ -87,7 +91,8 @@ public class PrefManager {
         editor.putString(CITY, city);
         editor.commit();
     }
-    public String getCity(){
+
+    public String getCity() {
         return pref.getString(CITY, "");
     }
 
@@ -95,7 +100,8 @@ public class PrefManager {
         editor.putString(COUNTRY, country);
         editor.commit();
     }
-    public String getCountry(){
+
+    public String getCountry() {
         return pref.getString(COUNTRY, "");
     }
 
@@ -104,7 +110,7 @@ public class PrefManager {
         editor.commit();
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return pref.getString(EMAIL, "");
     }
 
@@ -113,7 +119,7 @@ public class PrefManager {
         editor.commit();
     }
 
-    public String getLastDonatedDate(){
+    public String getLastDonatedDate() {
         return pref.getString(LAST_DONATED_DATE, "");
     }
 
@@ -122,7 +128,7 @@ public class PrefManager {
         editor.commit();
     }
 
-    public String getAvaialability(){
+    public String getAvaialability() {
         return pref.getString(AVAIALABILITY, "");
     }
 
@@ -131,7 +137,7 @@ public class PrefManager {
         editor.commit();
     }
 
-    public String getLastDonatedAt(){
+    public String getLastDonatedAt() {
         return pref.getString(LAST_DONATED_AT, "");
     }
 
@@ -139,7 +145,8 @@ public class PrefManager {
         editor.putString(KEY_HASH_SESSION, hashKey);
         editor.commit();
     }
-    public String getHashKey(){
+
+    public String getHashKey() {
         return pref.getString(KEY_HASH_SESSION, "");
     }
 

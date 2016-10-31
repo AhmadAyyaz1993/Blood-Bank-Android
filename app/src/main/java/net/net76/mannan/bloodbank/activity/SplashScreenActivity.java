@@ -1,11 +1,9 @@
 package net.net76.mannan.bloodbank.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.AppCompatActivity;
 
 import net.net76.mannan.bloodbank.R;
 
@@ -22,7 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        mCountDownTimer = new CountDownTimer(SPLASH_TIME_OUT,1000) {
+        mCountDownTimer = new CountDownTimer(SPLASH_TIME_OUT, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {

@@ -26,15 +26,15 @@ public class PhoneCallActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             Bundle extras1 = this.getIntent().getExtras();
-            if(extras1 == null) {
+            if (extras1 == null) {
                 this.phNumber = "03044422122";
             } else {
                 this.phNumber = extras1.getString("phNumber");
             }
         } else {
-            this.phNumber = (String)savedInstanceState.getSerializable("phNumber");
+            this.phNumber = (String) savedInstanceState.getSerializable("phNumber");
         }
 
         this.dialCall(this.phNumber);
@@ -49,7 +49,7 @@ public class PhoneCallActivity extends Activity {
 
     public void phoneCall(String phoneNum) {
         PhoneCallActivity.PhoneCallListener phoneListener = new PhoneCallActivity.PhoneCallListener();
-        TelephonyManager telephonyManager = (TelephonyManager)this.getSystemService("phone");
+        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService("phone");
         telephonyManager.listen(phoneListener, 32);
         Intent make_call_intent = new Intent("android.intent.action.CALL");
         make_call_intent.setData(Uri.parse("tel:" + phoneNum));
@@ -73,18 +73,18 @@ public class PhoneCallActivity extends Activity {
         }
 
         public void onCallStateChanged(int state, String incomingNumber) {
-            if(1 == state) {
+            if (1 == state) {
                 Log.i(this.LOG_TAG, "RINGING, number: " + incomingNumber);
             }
 
-            if(2 == state) {
+            if (2 == state) {
                 Log.i(this.LOG_TAG, "OFFHOOK");
                 this.isPhoneCalling = true;
             }
 
-            if(0 == state) {
+            if (0 == state) {
                 Log.i(this.LOG_TAG, "IDLE");
-                if(this.isPhoneCalling) {
+                if (this.isPhoneCalling) {
                     Log.i(this.LOG_TAG, "restart app");
                     Intent i = PhoneCallActivity.this.getBaseContext().getPackageManager().getLaunchIntentForPackage(PhoneCallActivity.this.getBaseContext().getPackageName());
                     i.addFlags(67108864);
