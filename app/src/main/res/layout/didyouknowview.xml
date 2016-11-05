@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="16dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:textColor="#000"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="
+    Approximately 60 percent of the population is eligible to donate blood, but only 5 percent actually does.
+
+    In one day, your blood travels 12,000 miles – four times the distance across the United States from coast to coast!
+
+    The human heart creates enough pressure to squirt blood up to 30 feet.
+
+    Every second, 8 million blood cells die in your body, and 8 million more are made.
+
+    Your heart beats over 3 billion times in your life. That's about 100,000 times a day!
+
+    An adult body has about 10–15 pints of blood. A newborn has only about 1 cup of blood.
+
+    Blood travels away from the heart and back again in approximately 20–60 seconds.
+"
+        />
+</LinearLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    Although all blood is made of the same basic elements, not all blood is alike. In fact, there are eight different common blood types, which are determined by the presence or absence of certain antigens – substances that can trigger an immune response if they are foreign to the body. Since some antigens can trigger a patient's immune system to attack the transfused blood, safe blood transfusions depend on careful blood typing and cross-matching."
+            />
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="The ABO Blood System"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    There are four major blood groups determined by the presence or absence of two antigens – A and B – on the surface of red blood cells:
+
+    Group A – has only the A antigen on red cells (and B antibody in the plasma)
+    Group B – has only the B antigen on red cells (and A antibody in the plasma)
+    Group AB – has both A and B antigens on red cells (but neither A nor B antibody in the plasma)
+    Group O – has neither A nor B antigens on red cells (but both A and B antibody are in the plasma)"
+            />
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Blood Types and the Population"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    O positive is the most common blood type. Not all ethnic groups have the same mix of these blood types. Hispanic people, for example, have a relatively high number of O’s, while Asian people have a relatively high number of B’s. The mix of the different blood types in the U.S. population is:"
+            />
+        <ImageView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bloodtypes2"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    Some patients require a closer blood match than that provided by the ABO positive/negative blood typing. For example, sometimes if the donor and recipient are from the same ethnic background the chance of a reaction can be reduced. That’s why an African-American blood donation may be the best hope for the needs of patients with sickle cell disease, 98 percent of whom are of African-American descent."
+            />
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="How Is My Blood Type Determined? "
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="   It’s inherited. Like eye color, blood type is passed genetically from your parents. Whether your blood group is type A, B, AB or O is based on the blood types of your mother and father.
+This chart shows the potential blood types you may inherit. "
+            />
+        <ImageView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:background="@drawable/childrenbloodgroups"
+            />
+    </LinearLayout>
+</ScrollView>

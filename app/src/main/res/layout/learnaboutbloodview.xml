@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:text="    When you accidentally cut yourself while helping your mother peel potatoes or when you gain a bruise after playing football, you are actually witnessing blood at work.Blood delivers the nutrients needed by the different parts of the body. When you have enough blood, you are able to think, play and study at optimum levels."
+        />
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="What are the components of blood?"
+        />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    The components of blood can be divided into plasma and cells. When blood is placed in a container and spun at high speeds in a process called centrifugation, the heavier and denser cells settle at the bottom while the lighter plasma remains on top. Plasma is composed of water, ions like sodium, potassium and calcium, and proteins like albumin and globulins.
+The cell component consists of white blood cells, red blood cells and platelets."
+            />
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="White Blood Cells:"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    White blood cells, also called leukocytes, are made in the bone marrow but undergo maturation in the thymus. They are bigger than red blood cells. When you have a cold or a fever, these cells are activated and they hone in to the infection. Think of them as your personal army against invaders like bacteria and viruses. When a WBC called macrophage encounters an enemy, it “eats” up the enemy and digests it. Other WBCs are called lymphocytes. T lymphocytes are called killer cells because they destroy the invaders. B lymphocytes are also called plasma cells because they produce globulins or antibodies. Antibodies attach to invaders and mark them for destruction by macrophages and lymphocytes."
+            />
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Red Blood Cells:"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    If red blood cells are removed from blood, it would appear light yellow. This is because it derives its red color from red blood cells or erythrocytes. RBCs contain a structure called heme, which has iron. Blood appears red due to the reaction of iron and oxygen. RBCs are mainly produced in the bone marrow but they can also be manufactured by the liver, kidneys and spleen. When you breathe in, oxygen enters the lungs. The red blood cells in the blood then get the oxygen molecules by binding them with heme. When the red blood cells reach your other tissues, they release the oxygen they are carrying."
+            />
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Platelets:"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    Platelets are from big cells called megakaryocytes, which are present in the bone marrow. Therefore, they are not really cells but are cell fragments made of cytoplasm. A proof that they are not cells can be observed through electron microscopy—they do not contain nuclei, mitochondria and ribosomes. However, platelets are still important because they contain alpha and dense granules. When you get a cut, platelets release these granules in order to prevent bleeding and seal your cut through the process called clotting."
+            />
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What are blood types?"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    There are four main blood types: A, B, AB and O. Your blood type is determined by a molecule present on the surface of your red blood cells. When you have the A blood type, N-galactosamine is present on the surface of your RBCs. When you have the B blood type, galactose is present. A person with AB blood would have both while a person with O blood would not have either of these surface molecules. It is important to know your blood type because it would help the doctor in cases where you might need a blood transfusion. A person with A blood type can only receive A or O blood; A person with B blood type can only receive B or O blood. A person with AB blood type can receive types A, B, AB and O. For this reason, people with AB blood type are called “universal recipients”. On the other hand, people with blood type O can only receive type O blood but can donate to all the other types. This is why people with blood type O are called “universal donors”."
+            />
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What is anemia?"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    Anemia is the term used for a deficiency of RBCs. When your body’s production of RBCs is not enough, then you can have anemia. It can also be caused by the production of defective RBCs or their destruction due to drugs, bacteria or viruses. An anemic person looks very pale, gets tired easily, feels weak, and faints or gets dizzy frequently."
+            />
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What is leukemia?"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="    Leukemia is a condition wherein there is overproduction of abnormal white blood cells. Because the body loses control over the proliferation of WBCs, this condition is also called “cancer” of the blood. Advances in medicine have made leukemia a curable disease, especially when it occurs in young people.Blood is a very important component of your body. It allows you to do your daily activities and gives your tissues the nutrients they need for normal functioning."
+            />
+    </LinearLayout>
+</ScrollView>
