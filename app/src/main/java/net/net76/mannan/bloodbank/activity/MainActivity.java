@@ -1,5 +1,6 @@
 package net.net76.mannan.bloodbank.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,11 +34,12 @@ public class MainActivity extends AppCompatActivity {
     GridView donnorsGridView;
     TextView no_record_text_view;
     ArrayList<Donnors> array_donnors_data;
-
+    Button btnLearnAboutBlood, btnBloodTypes, btnDidYouKnow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initializeViews();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,12 +62,44 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         new MyAsyncTask(getApplicationContext()).execute();
     }
+    public void learnAboutBlood(View view){
+        final Dialog dialog = new Dialog(MainActivity.this);
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.learnaboutbloodview);
+        // Set dialog title
+        dialog.setTitle("Learn About Blood");
 
+        // set values for custom dialog components - text, image and button
+        dialog.show();
+    }
+    public void bloodTypes(View view){
+        final Dialog dialog = new Dialog(MainActivity.this);
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.bloodtypesview);
+        // Set dialog title
+        dialog.setTitle("Blood Types");
+
+        // set values for custom dialog components - text, image and button
+        dialog.show();
+    }
+    public void didYouKnow(View view){
+        final Dialog dialog = new Dialog(MainActivity.this);
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.didyouknowview);
+        // Set dialog title
+        dialog.setTitle("Did you know?");
+
+        // set values for custom dialog components - text, image and button
+        dialog.show();
+    }
     private void initializeViews() {
         array_donnors_data = new ArrayList<Donnors>();
         grid_progress_bar = (ProgressBar) findViewById(R.id.grid_progress_bar);
         donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
         no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
+        btnLearnAboutBlood = (Button) findViewById(R.id.learnAboutBlood);
+        btnBloodTypes = (Button) findViewById(R.id.bloodTypes);
+        btnDidYouKnow = (Button) findViewById(R.id.didYouKnow);
     }
 
     private void startInsertingInListView() {
@@ -164,8 +199,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            initializeViews();
             grid_progress_bar.setVisibility(View.VISIBLE);
         }
 

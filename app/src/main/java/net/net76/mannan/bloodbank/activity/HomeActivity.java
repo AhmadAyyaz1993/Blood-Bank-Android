@@ -1,6 +1,7 @@
 package net.net76.mannan.bloodbank.activity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,9 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import net.net76.mannan.bloodbank.utils.PrefManager;
 import net.net76.mannan.bloodbank.R;
@@ -51,7 +56,8 @@ public class HomeActivity extends AppCompatActivity
     MenuItem menuItemLogOut;
     MenuItem menuItemLogIn;
     Menu menu;
-
+    Button btnLearnAboutBlood, btnBloodTypes, btnDidYouKnow;
+    private AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +66,10 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         initializeViews();
-
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mAdView.loadAd(adRequest);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -96,7 +105,57 @@ public class HomeActivity extends AppCompatActivity
         new MyAsyncTask(getApplicationContext()).execute();
     }
 */
+   public void learnAboutBlood(View view){
+    final Dialog dialog = new Dialog(HomeActivity.this);
+    // Include dialog.xml file
+    dialog.setContentView(R.layout.learnaboutbloodview);
+    // Set dialog title
+    dialog.setTitle("Learn About Blood");
 
+    // set values for custom dialog components - text, image and button
+    dialog.show();
+}
+    public void bloodTypes(View view){
+        final Dialog dialog = new Dialog(HomeActivity.this);
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.bloodtypesview);
+        // Set dialog title
+        dialog.setTitle("Blood Types");
+
+        // set values for custom dialog components - text, image and button
+        dialog.show();
+    }
+    public void didYouKnow(View view) {
+        final Dialog dialog = new Dialog(HomeActivity.this);
+        // Include dialog.xml file
+        dialog.setContentView(R.layout.didyouknowview);
+        // Set dialog title
+        dialog.setTitle("Did you know?");
+        dialog.show();
+    }
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
     private void initializeViews() {
         prefManager = new PrefManager(getApplicationContext());
         array_donnors_data = new ArrayList<Donnors>();
@@ -104,7 +163,9 @@ public class HomeActivity extends AppCompatActivity
         grid_progress_bar = (ProgressBar) findViewById(R.id.grid_progress_bar);
         donnorsGridView = (GridView) findViewById(R.id.donners_grid_view);
         no_record_text_view = (TextView) findViewById(R.id.no_record_text_view);
-
+        btnLearnAboutBlood = (Button) findViewById(R.id.learnAboutBlood);
+        btnBloodTypes = (Button) findViewById(R.id.bloodTypes);
+        btnDidYouKnow = (Button) findViewById(R.id.didYouKnow);
         fabButtonListner();
     }
 

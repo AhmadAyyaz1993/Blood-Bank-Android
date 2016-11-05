@@ -9,6 +9,8 @@
     <string name="no_record_found">No record found.</string>
     <string name="user_profile">Profile</string>
     <string name="splunkKey">d5b5b488</string>
+    <string name="banner_home_footer">ca-app-pub-1142291301644055/5964435724</string>
+    <string name="interstitial_full_screen">ca-app-pub-1142291301644055/8917902128</string>
 
     <array name="dummy_list">
         <item>23-Feb-2016</item>
