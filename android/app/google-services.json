@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "525667575451",
+    "project_id": "blood-bank-21559",
+    "storage_bucket": "blood-bank-21559.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525667575451:android:32c5e30c6b156a2336083e",
+        "android_client_info": {
+          "package_name": "com.evonative.bloodbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525667575451-mbd4q9dshe4gh3kods5gkfj0lm0ukcp3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDBGtR_RVrXHKul2-HBhMY8B96dtghp2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525667575451-mbd4q9dshe4gh3kods5gkfj0lm0ukcp3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

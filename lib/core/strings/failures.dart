@@ -1,0 +1,12 @@
+const String SERVER_FAILURE_MESSAGE = 'Please try again later.';
+const String OFFLINE_FAILURE_MESSAGE = 'Please Check your Internet Connection';
+const String WEEK_PASS_FAILURE_MESSAGE = "Please use a stronger password.";
+const String EXISTED_ACCOUNT_FAILURE_MESSAGE = "An account with this email already exists.";
+const String NO_USER_FAILURE_MESSAGE ="No account found with this email.";
+const String WRONG_PASSWORD_FAILURE_MESSAGE ="Incorrect password, please try again.";
+const String UNMATCHED_PASSWORD_FAILURE_MESSAGE ="Password doesn't match.";
+const String TOO_MANY_REQUESTS_FAILURE_MESSAGE ="Too many requests, please try again later.";
+const String INVALID_EMAIL_FAILURE_MESSAGE = "Please enter a valid email address.";
+const String INVALID_PASSWORD_FAILURE_MESSAGE = "Password must be greater than 6 characters.";
+const String INVALID_PHONENUMBER_FAILURE_MESSAGE = "Phone number is invalid.";
+const String INVALID_COUNTRY_FAILURE_MESSAGE = "Country must not be empty.";
