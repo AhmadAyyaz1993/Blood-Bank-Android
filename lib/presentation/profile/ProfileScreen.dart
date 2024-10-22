@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../di/injectable_config.dart';
 import '../../domain/entities/SignUpEntity.dart';
 
-class HomeScreen extends StatelessWidget {
+class ProfileScreen extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
 
   @override
