@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
 import '../presentation/home/HomeScreen.dart';
+import '../presentation/profile/ProfileScreen.dart';
 
 @singleton
 class AppRouter {
@@ -22,7 +23,11 @@ class AppRouter {
         GoRoute(
           path: '/home',
           builder: (context, state) => HomeScreen(),
-        )
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => ProfileScreen(),
+        ),
       ]);
 
   GoRouter get router => _router;

@@ -1,5 +1,8 @@
 
 
+import 'package:BloodBank/data/repositories/FetchProfileRepositoryImpl.dart';
+import 'package:BloodBank/domain/repositories/FetchProfileRepository.dart';
+import 'package:BloodBank/domain/use_cases/FetchProfileDataUseCase.dart';
 import 'package:BloodBank/domain/use_cases/LogOutUseCase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/repositories/HomeRepositoryImpl.dart';
 import '../presentation/auth/AuthController.dart';
+import '../presentation/profile/ProfileController.dart';
 
 
 @module
@@ -52,6 +56,9 @@ abstract class AuthModule {
   HomeRepository get homeRepository => HomeRepositoryImpl(networkInfo, store);
 
   @singleton
+  FetchProfileRepository get fetchProfileRepository => FetchProfileRepositoryImpl(networkInfo, store);
+
+  @singleton
   SignInUseCase get signInUseCase => SignInUseCase(authRepository);
 
   @singleton
@@ -67,9 +74,15 @@ abstract class AuthModule {
   CheckLoginUseCase get checkLoginUseCase => CheckLoginUseCase(authRepository);
 
   @singleton
+  FetchProfileDataUseCase get fetchProfileDataUseCase => FetchProfileDataUseCase(fetchProfileRepository);
+
+  @singleton
   AuthController get signInController => AuthController();
 
   @singleton
   HomeController get homeController => HomeController();
+
+  @singleton
+  ProfileController get profileController => ProfileController();
 
 }

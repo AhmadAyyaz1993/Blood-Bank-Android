@@ -8,6 +8,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:BloodBank/domain/repositories/FetchProfileRepository.dart';
+import 'package:BloodBank/domain/use_cases/FetchProfileDataUseCase.dart';
+import 'package:BloodBank/presentation/profile/ProfileController.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as _i12;
 import 'package:firebase_auth/firebase_auth.dart' as _i13;
 import 'package:firebase_core/firebase_core.dart' as _i4;
@@ -55,13 +58,16 @@ extension GetItInjectableX on _i1.GetIt {
     gh.singleton<_i5.NetworkInfo>(() => authModule.networkInfo);
     gh.singleton<_i6.AuthRepository>(() => authModule.authRepository);
     gh.singleton<_i12.HomeRepository>(() => authModule.homeRepository);
+    gh.singleton<FetchProfileRepository>(() => authModule.fetchProfileRepository);
     gh.singleton<_i7.SignInUseCase>(() => authModule.signInUseCase);
     gh.singleton<_i8.SignUpUseCase>(() => authModule.signUpUseCase);
     gh.singleton<_i13.FetchDonorsUseCase>(() => authModule.fetchDonorsUseCase);
+    gh.singleton<FetchProfileDataUseCase>(() => authModule.fetchProfileDataUseCase);
     gh.singleton<_i15.LogOutUseCase>(() => authModule.logOutUseCase);
     gh.singleton<_i9.CheckLoginUseCase>(() => authModule.checkLoginUseCase);
     gh.singleton<_i10.AuthController>(() => authModule.signInController);
     gh.singleton<_i14.HomeController>(() => authModule.homeController);
+    gh.singleton<ProfileController>(() => authModule.profileController);
     gh.singleton<_i11.AppRouter>(() => _i11.AppRouter());
     gh.lazySingleton<_i12.FirebaseFirestore>(() => authModule.store);
     gh.lazySingleton<_i13.FirebaseAuth>(() => authModule.firebaseAuth);

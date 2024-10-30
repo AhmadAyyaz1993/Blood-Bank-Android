@@ -1,6 +1,7 @@
 import 'package:BloodBank/presentation/home/HomeController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../di/injectable_config.dart';
 import '../../domain/entities/SignUpEntity.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
             icon: Icon(Icons.person), // Profile icon
             onPressed: () {
               // Navigate to profile update screen
-              Get.toNamed('/profile'); // Adjust the route to your profile page
+              context.go('/profile'); // Adjust the route to your profile page
             },
           ),
           IconButton(

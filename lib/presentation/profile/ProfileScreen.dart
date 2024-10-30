@@ -1,7 +1,12 @@
 import 'package:BloodBank/presentation/home/HomeController.dart';
+import 'package:BloodBank/presentation/profile/ProfileController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../core/util/validator.dart';
 import '../../di/injectable_config.dart';
 import '../../domain/entities/SignUpEntity.dart';
 
@@ -17,20 +22,40 @@ class _SignUpScreenState extends State<ProfileScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confimPasswordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final signUpController = getIt<AuthController>();
-  final SignUpEntity signUpEntity = SignUpEntity(email: '', password: '', name: '', country: 'Pakistan', city: '', bloodGroup: '', phoneNumber: '', repeatedPassword: '');
-  bool _showPassword = false;
+  final TextEditingController p_numberController = TextEditingController();
+
+  final profileController = getIt<ProfileController>();
+  final SignUpEntity signUpEntity = SignUpEntity(email: '', password: '', name: '', country: 'Pakistan', city: '', bloodGroup: '', phoneNumber: '', p_number: '',countryCode:'',repeatedPassword:'');
   List<String> bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   String selectedBloodGroup = 'A+';
+
+@override
+void initState() {
+  super.initState();
+  profileController.checkUserLogin(context);
+}
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    signUpController.checkUserLoginStatus(context);
+//     profileController.checkUserLogin(context);
+    print('Profile Screen: ${signUpEntity}');
     return Scaffold(
         backgroundColor: Colors.redAccent,
+        appBar: AppBar(
+            actions: [
+                IconButton(
+                  icon: Icon(Icons.home), // Profile icon
+                  onPressed: () {
+                    // Navigate to profile update screen
+                    context.go('/home'); // Adjust the route to your profile page
+                  },
+                )
+              ],
+          title: Text("Profile")
+        ),
         body: Form(
-          key: signUpController.formKey,
+          key: profileController.formKey,
           child: Stack(children: [
             SizedBox(
               width: size.width,
@@ -51,19 +76,9 @@ class _SignUpScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          // SizedBox(height: size.height * 0.08),
-                          const Center(
-                            child: Text(
-                              "Become a donor now!",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
                           SizedBox(height: size.height * 0.02),
-                          TextFormField(
-                            controller: emailController,
+                    Obx(() =>TextFormField(
+                            controller: emailController..text = profileController.userData.value.email,
                             validator: (value) {
                               return Validator.validateEmail(value ?? "");
                             },
@@ -78,9 +93,10 @@ class _SignUpScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
+                    ),
                           SizedBox(height: size.height * 0.03),
-                          TextFormField(
-                            controller: nameController,
+                    Obx(() =>TextFormField(
+                            controller: nameController..text = profileController.userData.value.name,
                             validator: (value) {
                               return Validator.validateName(value ?? "");
                             },
@@ -95,30 +111,34 @@ class _SignUpScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
+                    ),
                           SizedBox(height: size.height * 0.02),
 
-                          DropdownButtonFormField<String>(
-                            isExpanded: true, // Make the dropdown button expand to fill the container width
-                            hint: Text('Select Blood Group'), // Add a hint text
-                            // value: selectedBloodGroup,
-                            validator: (value){
-                              return Validator.validateBloodGroup(value ?? "");
-                            },
-                            onChanged: (String? newValue) {
-                              if (newValue != null) {
-                                setState(() {
-                                  signUpEntity.bloodGroup = newValue;
-                                  selectedBloodGroup = newValue;
-                                });
-                              }
-                            },
-                            items: bloodGroups.map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
+                    Obx(() => DropdownButtonFormField<String>(
+                          isExpanded: true, // Make the dropdown button expand to fill the container width
+                          hint: Text('Select Blood Group'), // Add a hint text
+                          value: bloodGroups.contains(profileController.userData.value.bloodGroup)
+                              ? profileController.userData.value.bloodGroup
+                              : null,
+                          validator: (value) {
+                            return Validator.validateBloodGroup(value ?? "");
+                          },
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                signUpEntity.bloodGroup = newValue;
+                                selectedBloodGroup = newValue;
+                              });
+                            }
+                          },
+                          items: bloodGroups.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    ),
                           SizedBox(height: size.height * 0.03),
 
                           // CSCPicker(
@@ -217,14 +237,16 @@ class _SignUpScreenState extends State<ProfileScreen> {
                           // ),
                           //
                           // SizedBox(height: size.height * 0.03,),
-                          IntlPhoneField(
+                    // Phone Number Field with initial country and number set
+                        Obx(() => IntlPhoneField(
+                            controller: p_numberController..text = profileController.userData.value.p_number??'',
                             decoration: InputDecoration(
                               labelText: 'Phone Number',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(),
                               ),
                             ),
-                            initialCountryCode: 'PK',
+                            initialCountryCode: PhoneNumber.fromCompleteNumber(completeNumber: profileController.userData.value.phoneNumber??'').countryISOCode,
                             onCountryChanged: (country) {
                               signUpEntity.country = country.name;
                             },
@@ -234,67 +256,16 @@ class _SignUpScreenState extends State<ProfileScreen> {
                               signUpEntity.countryCode = phone.countryCode;
                               signUpEntity.p_number = phone.number;
                             },
-                          ),
+                          )
+                        ),
                           SizedBox(height: size.height * 0.01),
-                          TextFormField(
-                            obscureText: _showPassword,
-                            controller: passwordController,
-                            validator: (value) => Validator.validatePassword(value ?? ""),
-                            onChanged: (value) => signUpEntity.password = value,
-                            decoration: InputDecoration(
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(
-                                          () => _showPassword = !_showPassword);
-                                },
-                                child: Icon(
-                                  _showPassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              hintText: "Password",
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: size.height * 0.01),
-                          TextFormField(
-                            obscureText: _showPassword,
-                            controller: confimPasswordController,
-                            validator: (value) => Validator.validatePassword(value ?? ""),
-                            onChanged: (value) => signUpEntity.repeatedPassword = value,
-                            decoration: InputDecoration(
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(
-                                          () => _showPassword = !_showPassword);
-                                },
-                                child: Icon(
-                                  _showPassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              hintText: "Confirm password",
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: size.height * 0.04),
                           Row(
 
                             children: [
                               Expanded(
                                 child: Obx(() => ElevatedButton(
-                                  onPressed: signUpController.isLoading.value ? null : () {
-                                    signUpController.registerUser(context,signUpEntity);
+                                  onPressed: profileController.isLoading.value ? null : () {
+                                    // profileController.registerUser(context,signUpEntity);
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.redAccent,
@@ -304,7 +275,7 @@ class _SignUpScreenState extends State<ProfileScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 40, vertical: 15)),
                                   child: const Text(
-                                    "Register",
+                                    "Update",
                                     style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.white,
@@ -322,18 +293,18 @@ class _SignUpScreenState extends State<ProfileScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Obx(() {
-                                  if (signUpController.isLoading.value) {
+                                  if (profileController.isLoading.value) {
                                     return CircularProgressIndicator();
-                                  } else if (signUpController.errorMessage.isNotEmpty) {
+                                  } else if (profileController.errorMessage.isNotEmpty) {
                                     WidgetsBinding.instance.addPostFrameCallback((_) {
                                       ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                                signUpController.errorMessage
+                                                profileController.errorMessage
                                                     .toString()),
                                             backgroundColor: Colors.red.shade300,
                                           ));
-                                      signUpController.errorMessage.value = '';
+                                      profileController.errorMessage.value = '';
                                     });
                                     return Container();
                                   } else {
@@ -341,31 +312,6 @@ class _SignUpScreenState extends State<ProfileScreen> {
                                   }
                                 }),
                               ]
-                          ),
-                          SizedBox(height: size.height * 0.01),
-                          Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "OR",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextButton( // Use TextButton for different visual style
-                                  onPressed: () {
-                                    // Navigate to signup page
-                                    context.go('/login');
-                                  },
-                                  child: const Text(
-                                    "Already a donor? Login.",
-                                    style: TextStyle(color: Colors.redAccent),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ],
                       ),
