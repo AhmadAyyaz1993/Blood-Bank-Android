@@ -20,6 +20,7 @@ class ProfileController extends GetxController {
   final Rx<bool> isLoading = Rx<bool>(false); // Tracks loading state
   final Rx<String> errorMessage = Rx<String>(''); // Error message
   final Rx<String> searchQuery = ''.obs; // Holds the search query
+  final Rx<bool> isDataLoaded = Rx<bool>(false);
   final Rx<SignUpEntity> userData = SignUpEntity(name: '', email: '', country: '', bloodGroup: '', city: '', phoneNumber: '', countryCode: '', p_number: '', password: '', repeatedPassword: '').obs; // Holds the sign up entity
 
   @override
@@ -62,6 +63,7 @@ class ProfileController extends GetxController {
             // Update the entire userData observable at once
             print('Profile Data: ${profileData}'); // Check the profile data being returned
             userData.value = profileData;
+            isDataLoaded.value = true;
           }
     );
     isLoading.value = false;
