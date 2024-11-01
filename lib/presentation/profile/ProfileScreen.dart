@@ -1,6 +1,7 @@
 import 'package:BloodBank/presentation/home/HomeController.dart';
 import 'package:BloodBank/presentation/profile/ProfileController.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -14,10 +15,10 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _SignUpScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _SignUpScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confimPasswordController = TextEditingController();
@@ -36,26 +37,33 @@ class _SignUpScreenState extends State<ProfileScreen> {
     profileController.checkUserLogin(context);
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        lastDonatedDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+        // signUpEntity.lastDonatedDate = pickedDate;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print('Profile Screen: ${signUpEntity}');
 
-    return WillPopScope(
-      onWillPop: () async {
-        // Return true to allow the pop
-        context.go('/home');
-        return true;
-      },
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.redAccent,
         appBar: AppBar(
           actions: [
             IconButton(
-              icon: Icon(Icons.home), // Profile icon
+              icon: Icon(Icons.home),
               onPressed: () {
-                // Navigate to profile update screen
-                context.go('/home'); // Adjust the route to your profile page
+                context.go('/home');
               },
             )
           ],
@@ -122,6 +130,20 @@ class _SignUpScreenState extends State<ProfileScreen> {
                               ),
                             )),
                             SizedBox(height: size.height * 0.02),
+                            TextFormField(
+                              controller: lastDonatedDateController,
+                              readOnly: true,
+                              onTap: () => _selectDate(context),
+                              decoration: InputDecoration(
+                                labelText: "Last Donated Date",
+                                hintText: "Select Date",
+                                isDense: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.03),
                             Obx(() => DropdownButtonFormField<String>(
                               isExpanded: true,
                               hint: Text('Select Blood Group'),
@@ -160,7 +182,6 @@ class _SignUpScreenState extends State<ProfileScreen> {
                                 signUpEntity.country = country.name;
                               },
                               onChanged: (phone) {
-                                print(phone.completeNumber);
                                 signUpEntity.phoneNumber = phone.completeNumber;
                                 signUpEntity.countryCode = phone.countryCode;
                                 signUpEntity.p_number = phone.number;
@@ -172,7 +193,7 @@ class _SignUpScreenState extends State<ProfileScreen> {
                                 Expanded(
                                   child: Obx(() => ElevatedButton(
                                     onPressed: profileController.isLoading.value ? null : () {
-                                      // profileController.registerUser(context,signUpEntity);
+                                      // profileController.registerUser(context, signUpEntity);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.redAccent,
@@ -226,7 +247,6 @@ class _SignUpScreenState extends State<ProfileScreen> {
             ]),
           );
         }),
-      ),
     );
   }
 }
