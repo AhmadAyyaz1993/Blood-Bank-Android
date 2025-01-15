@@ -4,4 +4,5 @@ import 'package:BloodBank/domain/entities/SignUpEntity.dart';
 
 abstract class FetchProfileRepository {
   Future<Either<Failure, SignUpEntity>> fetchUserDetails(String? email);
+  Future<Either<Failure, bool>> updateUserData(SignUpEntity signUpEntity);
 }

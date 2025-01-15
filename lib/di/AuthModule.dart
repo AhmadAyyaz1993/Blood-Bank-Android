@@ -4,6 +4,7 @@ import 'package:BloodBank/data/repositories/FetchProfileRepositoryImpl.dart';
 import 'package:BloodBank/domain/repositories/FetchProfileRepository.dart';
 import 'package:BloodBank/domain/use_cases/FetchProfileDataUseCase.dart';
 import 'package:BloodBank/domain/use_cases/LogOutUseCase.dart';
+import 'package:BloodBank/domain/use_cases/UpdateUserDataUseCase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -75,6 +76,9 @@ abstract class AuthModule {
 
   @singleton
   FetchProfileDataUseCase get fetchProfileDataUseCase => FetchProfileDataUseCase(fetchProfileRepository);
+
+  @singleton
+  UpdateUserDataUseCase get updateUserDataUseCase => UpdateUserDataUseCase(fetchProfileRepository);
 
   @singleton
   AuthController get signInController => AuthController();

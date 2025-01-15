@@ -11,6 +11,7 @@ class SignUpEntity extends Equatable {
   String? p_number;
   String password;
   String repeatedPassword;
+  String? lastDonatedDate;
 
 
   SignUpEntity({ required this.name,
@@ -22,7 +23,8 @@ class SignUpEntity extends Equatable {
     this.countryCode,
     this.p_number,
     required this.password,
-    required this.repeatedPassword});
+    required this.repeatedPassword,
+    this.lastDonatedDate,});
 
 
   // Converts the Firestore document data (Map) into a SignUpEntity instance
@@ -38,6 +40,7 @@ class SignUpEntity extends Equatable {
       p_number: map['p_number'],
       password: map['password'] ?? '',
       repeatedPassword: map['repeatedPassword'] ?? '',
+      lastDonatedDate: map['lastDonatedDate'] ?? '',
     );
   }
 
@@ -53,6 +56,7 @@ class SignUpEntity extends Equatable {
       'p_number': p_number,
       'password': password,
       'repeatedPassword': repeatedPassword,
+      'lastDonatedDate': lastDonatedDate,
     };
   }
 

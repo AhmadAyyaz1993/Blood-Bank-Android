@@ -36,4 +36,41 @@ class FetchProfileRepositoryImpl implements FetchProfileRepository {
       return Left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> updateUserData(SignUpEntity signUp) async {
+    if(signUp.email.isEmpty || Validator.validateEmail(signUp.email) != null){
+      return Left(EmailValidatorFailure());
+    }
+
+    if(signUp.password.isEmpty || Validator.validatePassword(signUp.password) != null){
+      return Left(PasswordInvalidOrEmptyFailure());
+    }
+
+    if(signUp.name.isEmpty){
+      return Left(NameInvalidOrEmptyFailure());
+    }
+
+    if(signUp.country.isEmpty){
+      return Left(CountryInvalidOrEmptyFailure());
+    }
+
+    if(signUp.phoneNumber.isEmpty){
+      return Left(PhoneNumberInvalidOrEmptyFailure());
+    }
+
+    if ( !await networkInfo.isConnected) {
+      return Left(OfflineFailure());
+    }else if (signUp.password != signUp.repeatedPassword){
+      return Left(UnmatchedPassFailure());
+    }else{
+      try{
+        String documentId = signUp.email; // Define your custom ID
+        await store.collection('users').doc(documentId).set(signUp.toMap());
+        return Right(true) ;
+      }on Exception catch (e) {
+        return Left(ServerFailure());
+      }
+    }
+  }
 }

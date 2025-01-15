@@ -35,6 +35,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     profileController.checkUserLogin(context);
+    // Add listener to update signUpEntity when data loads
+    ever(profileController.userData, (user) {
+      signUpEntity.email = user.email;
+      signUpEntity.password = user.password ?? '';
+      signUpEntity.name = user.name;
+      signUpEntity.country = user.country ?? 'Pakistan';
+      signUpEntity.city = user.city ?? '';
+      signUpEntity.bloodGroup = user.bloodGroup;
+      signUpEntity.phoneNumber = user.phoneNumber ?? '';
+      signUpEntity.p_number = user.p_number ?? '';
+      signUpEntity.countryCode = user.countryCode ?? '';
+      signUpEntity.repeatedPassword = user.password ?? '';
+      signUpEntity.lastDonatedDate = user.lastDonatedDate ?? '';
+    });
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -47,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (pickedDate != null) {
       setState(() {
         lastDonatedDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
-        // signUpEntity.lastDonatedDate = pickedDate;
+        signUpEntity.lastDonatedDate = pickedDate.toString();
       });
     }
   }
@@ -133,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )),
                             SizedBox(height: size.height * 0.02),
                             TextFormField(
-                              controller: lastDonatedDateController,
+                              controller: lastDonatedDateController..text = signUpEntity.lastDonatedDate?.split(' ')[0]??'',
                               readOnly: true,
                               onTap: () => _selectDate(context),
                               decoration: InputDecoration(
@@ -155,20 +169,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               validator: (value) {
                                 return Validator.validateBloodGroup(value ?? "");
                               },
-                              onChanged: (String? newValue) {
-                                if (newValue != null) {
-                                  setState(() {
-                                    signUpEntity.bloodGroup = newValue;
-                                    selectedBloodGroup = newValue;
-                                  });
-                                }
-                              },
+                              onChanged: null,
                               items: bloodGroups.map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
                                 );
                               }).toList(),
+                              decoration: const InputDecoration(
+                                enabled: false, // Disable the field
+                              ),
                             )),
                             SizedBox(height: size.height * 0.03),
                             // ... existing code ...
@@ -214,7 +224,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Expanded(
                                   child: Obx(() => ElevatedButton(
                                     onPressed: profileController.isLoading.value ? null : () {
-                                      // profileController.registerUser(context, signUpEntity);
+                                      profileController.updateProfileData(context, signUpEntity);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.redAccent,

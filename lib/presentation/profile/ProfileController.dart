@@ -10,10 +10,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/util/mapper.dart';
 import '../../di/injectable_config.dart';
 import '../../domain/entities/SignUpEntity.dart';
+import '../../domain/use_cases/UpdateUserDataUseCase.dart';
 
 class ProfileController extends GetxController {
   final CheckLoginUseCase checkLoginUseCase = getIt<CheckLoginUseCase>();
   final FetchProfileDataUseCase fetchProfileDataUseCase = getIt<FetchProfileDataUseCase>();
+  final UpdateUserDataUseCase updateUserDataUseCase = getIt<UpdateUserDataUseCase>();
   final LogOutUseCase logOutUseCase = getIt<LogOutUseCase>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -63,6 +65,22 @@ class ProfileController extends GetxController {
             // Update the entire userData observable at once
             print('Profile Data: ${profileData}'); // Check the profile data being returned
             userData.value = profileData;
+            isDataLoaded.value = true;
+          }
+    );
+    isLoading.value = false;
+  }
+
+  Future<void> updateProfileData(BuildContext context, SignUpEntity signUpEntity) async {
+    isLoading.value = true;
+    print('Profile Data: ${signUpEntity.lastDonatedDate}');
+    final result = await updateUserDataUseCase(signUpEntity);
+    result.fold(
+          (failure) {
+            errorMessage.value = mapFailureToMessage(failure); // Set error message
+          },
+          (profileData) {
+            context.go('/home');
             isDataLoaded.value = true;
           }
     );

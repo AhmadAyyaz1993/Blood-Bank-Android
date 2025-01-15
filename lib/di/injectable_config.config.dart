@@ -10,6 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:BloodBank/domain/repositories/FetchProfileRepository.dart';
 import 'package:BloodBank/domain/use_cases/FetchProfileDataUseCase.dart';
+import 'package:BloodBank/domain/use_cases/UpdateUserDataUseCase.dart';
 import 'package:BloodBank/presentation/profile/ProfileController.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as _i12;
 import 'package:firebase_auth/firebase_auth.dart' as _i13;
@@ -63,6 +64,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.singleton<_i8.SignUpUseCase>(() => authModule.signUpUseCase);
     gh.singleton<_i13.FetchDonorsUseCase>(() => authModule.fetchDonorsUseCase);
     gh.singleton<FetchProfileDataUseCase>(() => authModule.fetchProfileDataUseCase);
+    gh.singleton<UpdateUserDataUseCase>(() => authModule.updateUserDataUseCase);
     gh.singleton<_i15.LogOutUseCase>(() => authModule.logOutUseCase);
     gh.singleton<_i9.CheckLoginUseCase>(() => authModule.checkLoginUseCase);
     gh.singleton<_i10.AuthController>(() => authModule.signInController);
