@@ -169,24 +169,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }).toList(),
                             )),
                             SizedBox(height: size.height * 0.03),
-                            Obx(() => IntlPhoneField(
-                              controller: p_numberController..text = profileController.userData.value.p_number ?? '',
-                              decoration: InputDecoration(
-                                labelText: 'Phone Number',
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(),
+                            // ... existing code ...
+                            Obx(() {
+                              // Get the phone number from userData
+                              final phoneNumber = profileController.userData.value.phoneNumber;
+                              
+                              // Only create PhoneNumber if we have valid data
+                              PhoneNumber? initialPhone;
+                              if (phoneNumber != null && phoneNumber.isNotEmpty) {
+                                try {
+                                  initialPhone = PhoneNumber.fromCompleteNumber(
+                                    completeNumber: phoneNumber
+                                  );
+                                } catch (e) {
+                                  print('Error parsing phone number: $e');
+                                }
+                              }
+
+                              return IntlPhoneField(
+                                controller: p_numberController
+                                  ..text = profileController.userData.value.p_number ?? '',
+                                decoration: InputDecoration(
+                                  labelText: 'Phone Number',
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
                                 ),
-                              ),
-                              initialCountryCode: PhoneNumber.fromCompleteNumber(completeNumber: profileController.userData.value.phoneNumber ?? '').countryISOCode,
-                              onCountryChanged: (country) {
-                                signUpEntity.country = country.name;
-                              },
-                              onChanged: (phone) {
-                                signUpEntity.phoneNumber = phone.completeNumber;
-                                signUpEntity.countryCode = phone.countryCode;
-                                signUpEntity.p_number = phone.number;
-                              },
-                            )),
+                                initialCountryCode: initialPhone?.countryISOCode ?? 'PK', // Default to Pakistan if no data
+                                onCountryChanged: (country) {
+                                  signUpEntity.country = country.name;
+                                },
+                                onChanged: (phone) {
+                                  signUpEntity.phoneNumber = phone.completeNumber;
+                                  signUpEntity.countryCode = phone.countryCode;
+                                  signUpEntity.p_number = phone.number;
+                                },
+                              );
+                            }),// ... existing code ...
                             SizedBox(height: size.height * 0.01),
                             Row(
                               children: [
