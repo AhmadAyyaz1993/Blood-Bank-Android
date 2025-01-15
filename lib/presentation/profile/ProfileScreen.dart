@@ -104,6 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onChanged: (value) {
                                 signUpEntity.email = value;
                               },
+                              enabled: false,
                               decoration: InputDecoration(
                                 hintText: "Email",
                                 isDense: true,
@@ -121,6 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onChanged: (value) {
                                 signUpEntity.name = value;
                               },
+                              enabled: false,
                               decoration: InputDecoration(
                                 hintText: "Name",
                                 isDense: true,
