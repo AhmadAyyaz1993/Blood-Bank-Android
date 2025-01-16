@@ -26,8 +26,8 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.logout), // Logout icon
             onPressed: () {
-              // Implement the logout logic
-              homeController.logout(context);
+              // Show confirmation dialog before logout
+              _showLogoutConfirmationDialog(context);
             },
           ),
         ],
@@ -79,6 +79,33 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text("Logout"),
+          content: Text("Are you sure you want to logout?"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("No"),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Dismiss the dialog
+              },
+            ),
+            TextButton(
+              child: Text("Yes"),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Dismiss the dialog
+                homeController.logout(context); // Perform logout
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
