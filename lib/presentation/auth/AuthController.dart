@@ -31,7 +31,7 @@ class AuthController extends GetxController {
     result.fold(
           (failure) {
         // Navigate to login page if login check fails
-        context.go('/login');
+        context.go('/signup');
       },
           (user) {
         // Navigate to home page if login is successful

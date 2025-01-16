@@ -84,8 +84,12 @@ class AuthRepositoryImpl implements AuthRepository{
           email: signUp.email,
           password: signUp.password,
         );
-        String documentId = signUp.email; // Define your custom ID
-        await store.collection('users').doc(documentId).set(signUp.toMap());
+
+        // Create a new map without password and repeatedPassword
+        final userData = signUp.toMap()
+          ..remove('password')
+          ..remove('repeatedPassword');
+        await store.collection('users').doc(signUp.email).set(userData);
         return Right(userCredential) ;
       }on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
