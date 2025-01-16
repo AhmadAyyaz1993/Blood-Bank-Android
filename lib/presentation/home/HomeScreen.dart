@@ -136,6 +136,11 @@ class DonorListItem extends StatelessWidget {
                     '${donor.country}, ${donor.city ?? ''}',
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Last Donated: ' + (donor.lastDonatedDate?.split(' ')[0] ?? ''),
+                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                  ),
                 ],
               ),
             ),

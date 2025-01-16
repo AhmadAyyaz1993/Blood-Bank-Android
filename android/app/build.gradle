@@ -61,6 +61,11 @@ android {
             minifyEnabled true // Set to true if you're using ProGuard
             shrinkResources true // Set to true if you're using ProGuard
         }
+        debug {
+            signingConfig signingConfigs.release
+            minifyEnabled true // Set to true if you're using ProGuard
+            shrinkResources true // Set to true if you're using ProGuard
+        }
     }
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
