@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../BannerAdWidget.dart';
 import '../../di/injectable_config.dart';
 import '../../domain/entities/SignUpEntity.dart';
 
@@ -36,6 +37,8 @@ class HomeScreen extends StatelessWidget {
         color: Colors.white,
         child: Column(
           children: [
+            // Top Banner Ad
+            BannerAdWidget(adUnitId: 'ca-app-pub-8237243558098827/6268580828'),
             // Search Field
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -182,6 +185,8 @@ class DonorListItem extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Padding
               ),
             ),
+            // Bottom Banner Ad
+            // BannerAdWidget(adUnitId: 'ca-app-pub-8237243558098827/6268580828'),
           ],
         ),
       ),

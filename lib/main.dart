@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:BloodBank/config/AppRouter.dart';
 import 'package:BloodBank/config/themes/AppTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'di/injectable_config.dart';
 
@@ -16,6 +17,7 @@ void main() async {
         storageBucket: 'blood-bank-21559.appspot.com',
       ));
   await configureDependencies();
+  MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 

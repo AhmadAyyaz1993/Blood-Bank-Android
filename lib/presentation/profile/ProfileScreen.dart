@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../BannerAdWidget.dart';
 import '../../core/util/validator.dart';
 import '../../di/injectable_config.dart';
 import '../../domain/entities/SignUpEntity.dart';
@@ -91,6 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return Form(
             key: profileController.formKey,
             child: Stack(children: [
+              BannerAdWidget(adUnitId: 'ca-app-pub-8237243558098827/6839426461'),
               SizedBox(
                 width: size.width,
                 height: size.height,

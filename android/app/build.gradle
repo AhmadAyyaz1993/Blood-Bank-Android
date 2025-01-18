@@ -96,4 +96,5 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.3.0')
     implementation("com.google.firebase:firebase-analytics")
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.gms:play-services-ads:22.1.0' // Check for latest version
 }
