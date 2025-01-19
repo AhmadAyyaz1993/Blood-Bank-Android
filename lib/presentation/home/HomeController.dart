@@ -72,7 +72,10 @@ class HomeController extends GetxController {
     } else {
       // Filter donors based on name or country
       filteredDonorsList.assignAll(donorsList.where((donor) {
-        return donor.bloodGroup.toLowerCase().contains(query.toLowerCase());
+        final bloodGroupMatch = donor.bloodGroup.toLowerCase().contains(query.toLowerCase());
+        final cityMatch = donor.city?.toLowerCase().contains(query.toLowerCase()) ?? false;
+        return bloodGroupMatch || cityMatch;
+
       }).toList());
     }
   }

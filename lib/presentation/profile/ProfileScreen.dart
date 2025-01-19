@@ -26,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController p_numberController = TextEditingController();
   final TextEditingController lastDonatedDateController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
 
   final profileController = getIt<ProfileController>();
   final SignUpEntity signUpEntity = SignUpEntity(email: '', password: '', name: '', country: 'Pakistan', city: '', bloodGroup: '', phoneNumber: '', p_number: '', countryCode:'', repeatedPassword:'');
@@ -138,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onChanged: (value) {
                                 signUpEntity.name = value;
                               },
-                              enabled: false,
+                              // enabled: false,
                               decoration: InputDecoration(
                                 hintText: "Name",
                                 isDense: true,
@@ -171,16 +172,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               validator: (value) {
                                 return Validator.validateBloodGroup(value ?? "");
                               },
-                              onChanged: null,
+                              onChanged: (String? newValue) {
+                                if (newValue != null) {
+                                  setState(() {
+                                    signUpEntity.bloodGroup = newValue;
+                                    selectedBloodGroup = newValue;
+                                  });
+                                }
+                              },
                               items: bloodGroups.map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
                                 );
                               }).toList(),
-                              decoration: const InputDecoration(
-                                enabled: false, // Disable the field
-                              ),
+                              // decoration: const InputDecoration(
+                              //   enabled: false, // Disable the field
+                              // ),
                             )),
                             SizedBox(height: size.height * 0.03),
                             // ... existing code ...
@@ -221,6 +229,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               );
                             }),// ... existing code ...
                             SizedBox(height: size.height * 0.01),
+                            TextFormField(
+                              controller: cityController..text = profileController.userData.value.city ?? '',
+                              validator: (value) {
+                                return value ?? "";
+                              },
+                              onChanged: (value) {
+                                signUpEntity.city = value;
+                              },
+                              decoration: InputDecoration(
+                                hintText: "City",
+                                isDense: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.02),
                             Row(
                               children: [
                                 Expanded(
@@ -264,7 +289,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       profileController.errorMessage.value = '';
                                     });
                                     return Container();
-                                  } else {
+                                  } else if (profileController.successMessage.isNotEmpty){
+                                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(profileController.successMessage.toString()),
+                                          backgroundColor: Colors.green.shade300,
+                                        ),
+                                      );
+                                      profileController.successMessage.value = '';
+                                    });
+                                    return Container();
+                                  }
+                                  else {
                                     return Container();
                                   }
                                 }),

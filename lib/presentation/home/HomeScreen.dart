@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                   homeController.searchQuery.value = value; // Update search query
                 },
                 decoration: InputDecoration(
-                  labelText: 'Search by Blood Group',
+                  labelText: 'Search by Blood Group & City',
                   border: OutlineInputBorder(),
                   suffixIcon: Icon(Icons.search),
                 ),

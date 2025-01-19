@@ -21,6 +21,7 @@ class ProfileController extends GetxController {
 
   final Rx<bool> isLoading = Rx<bool>(false); // Tracks loading state
   final Rx<String> errorMessage = Rx<String>(''); // Error message
+  final Rx<String> successMessage = Rx<String>(''); // Error message
   final Rx<String> searchQuery = ''.obs; // Holds the search query
   final Rx<bool> isDataLoaded = Rx<bool>(false);
   final Rx<SignUpEntity> userData = SignUpEntity(name: '', email: '', country: '', bloodGroup: '', city: '', phoneNumber: '', countryCode: '', p_number: '', password: '', repeatedPassword: '').obs; // Holds the sign up entity
@@ -33,6 +34,7 @@ class ProfileController extends GetxController {
   Future<void> checkUserLogin(BuildContext context) async {
     isLoading.value = true; // Indicate loading state
     errorMessage.value = ''; // Clear previous error messages
+    successMessage.value = '';
     final result = await checkLoginUseCase();
     result.fold(
           (failure) {
@@ -80,7 +82,8 @@ class ProfileController extends GetxController {
             errorMessage.value = mapFailureToMessage(failure); // Set error message
           },
           (profileData) {
-            context.go('/home');
+            // context.go('/home');
+            successMessage.value = 'Data updated successfully.';
             isDataLoaded.value = true;
           }
     );
