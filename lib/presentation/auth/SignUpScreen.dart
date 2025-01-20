@@ -147,11 +147,8 @@ class _SignUpScreenState extends State<SignUpView> {
                           SizedBox(height: size.height * 0.01),
                           TextFormField(
                             controller: cityController,
-                            validator: (value) {
-                              return value ?? "";
-                            },
                             onChanged: (value) {
-                              signUpEntity.city = value;
+                              signUpEntity.city = value ?? '';
                             },
                             decoration: InputDecoration(
                               hintText: "City",

@@ -231,11 +231,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: size.height * 0.01),
                             TextFormField(
                               controller: cityController..text = profileController.userData.value.city ?? '',
-                              validator: (value) {
-                                return value ?? "";
-                              },
                               onChanged: (value) {
-                                signUpEntity.city = value;
+                                signUpEntity.city = value ?? '';
                               },
                               decoration: InputDecoration(
                                 hintText: "City",
