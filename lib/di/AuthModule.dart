@@ -1,10 +1,13 @@
 
 
 import 'package:BloodBank/data/repositories/FetchProfileRepositoryImpl.dart';
+import 'package:BloodBank/domain/repositories/BloodRequestRepository.dart';
 import 'package:BloodBank/domain/repositories/FetchProfileRepository.dart';
+import 'package:BloodBank/domain/use_cases/CreateBloodRequestUseCase.dart';
 import 'package:BloodBank/domain/use_cases/FetchProfileDataUseCase.dart';
 import 'package:BloodBank/domain/use_cases/LogOutUseCase.dart';
 import 'package:BloodBank/domain/use_cases/UpdateUserDataUseCase.dart';
+import 'package:BloodBank/presentation/request_blood/BloodRequestController.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,11 +20,15 @@ import 'package:BloodBank/domain/use_cases/FetchDonorsUseCase.dart';
 import 'package:BloodBank/domain/use_cases/SignInUseCase.dart';
 import 'package:BloodBank/domain/use_cases/SignUpUseCase.dart';
 import 'package:BloodBank/presentation/home/HomeController.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/repositories/BloodRequestRepositoryImpl.dart';
 import '../data/repositories/HomeRepositoryImpl.dart';
+import '../domain/use_cases/FetchBloodRequestsUseCase.dart';
 import '../presentation/auth/AuthController.dart';
+import '../presentation/menu/MenuScreenController.dart';
 import '../presentation/profile/ProfileController.dart';
 
 
@@ -60,6 +67,9 @@ abstract class AuthModule {
   FetchProfileRepository get fetchProfileRepository => FetchProfileRepositoryImpl(networkInfo, store);
 
   @singleton
+  BloodRequestRepository get bloodRequestRepository => BloodRequestRepositoryImpl(networkInfo, store);
+
+  @singleton
   SignInUseCase get signInUseCase => SignInUseCase(authRepository);
 
   @singleton
@@ -81,6 +91,12 @@ abstract class AuthModule {
   UpdateUserDataUseCase get updateUserDataUseCase => UpdateUserDataUseCase(fetchProfileRepository);
 
   @singleton
+  CreateBloodRequestUseCase get createBloodRequestUseCase => CreateBloodRequestUseCase(bloodRequestRepository);
+
+  @singleton
+  FetchBloodRequestsUseCase get fetchBloodRequestsUseCase => FetchBloodRequestsUseCase(bloodRequestRepository);
+
+  @singleton
   AuthController get signInController => AuthController();
 
   @singleton
@@ -88,5 +104,11 @@ abstract class AuthModule {
 
   @singleton
   ProfileController get profileController => ProfileController();
+
+  @singleton
+  BloodRequestController get bloodRequestController => BloodRequestController();
+
+  @singleton
+  MenuScreenController get menuController => MenuScreenController();
 
 }

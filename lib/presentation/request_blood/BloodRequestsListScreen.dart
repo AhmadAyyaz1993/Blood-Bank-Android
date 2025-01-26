@@ -1,4 +1,6 @@
+import 'package:BloodBank/domain/entities/BloodRequestEntity.dart';
 import 'package:BloodBank/presentation/home/HomeController.dart';
+import 'package:BloodBank/presentation/request_blood/BloodRequestController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -7,15 +9,16 @@ import '../../BannerAdWidget.dart';
 import '../../di/injectable_config.dart';
 import '../../domain/entities/SignUpEntity.dart';
 
-class HomeScreen extends StatelessWidget {
-  final HomeController homeController = Get.put(HomeController());
+class BloodRequestsListScreen extends StatelessWidget {
+  final BloodRequestController bloodRequestController = Get.put(BloodRequestController());
+
 
   @override
   Widget build(BuildContext context) {
-    homeController.checkUserLogin(context);
+    bloodRequestController.checkUserLogin(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Donors List"),
+        title: Text("Blood Requests"),
         actions: [
           IconButton(
             icon: Icon(Icons.home_filled), // Profile icon
@@ -23,35 +26,31 @@ class HomeScreen extends StatelessWidget {
               // Navigate to profile update screen
               context.go('/menu'); // Adjust the route to your profile page
             },
-          ),
-          IconButton(
-            icon: Icon(Icons.person), // Profile icon
-            onPressed: () {
-              // Navigate to profile update screen
-              context.go('/profile'); // Adjust the route to your profile page
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.logout), // Logout icon
-            onPressed: () {
-              // Show confirmation dialog before logout
-              _showLogoutConfirmationDialog(context);
-            },
-          ),
+          )
         ],
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          onPressed: () {
+            context.go('/create_blood_request');
+          },
+          child: Text("Create Blood Request"),
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent, // Button color
+          ),
+        ),),
       body: Container(
         color: Colors.white,
         child: Column(
           children: [
             // Top Banner Ad
             BannerAdWidget(adUnitId: 'ca-app-pub-8237243558098827/6268580828'),
-            // Search Field
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
                 onChanged: (value) {
-                  homeController.searchQuery.value = value; // Update search query
+                  bloodRequestController.searchQuery.value = value; // Update search query
                 },
                 decoration: InputDecoration(
                   labelText: 'Search by Blood Group & City',
@@ -62,26 +61,26 @@ class HomeScreen extends StatelessWidget {
             ),
             Expanded(
               child: Obx(() {
-                if (homeController.isLoading.value) {
+                if (bloodRequestController.isLoading.value) {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                if (homeController.errorMessage.value.isNotEmpty) {
+                if (bloodRequestController.errorMessage.value.isNotEmpty) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(homeController.errorMessage.toString()),
+                      content: Text(bloodRequestController.errorMessage.toString()),
                       backgroundColor: Colors.red.shade300,
                     ));
-                    homeController.errorMessage.value = '';
+                    bloodRequestController.errorMessage.value = '';
                   });
                 }
 
                 // Render the filtered list of donors
                 return ListView.builder(
-                  itemCount: homeController.filteredDonorsList.length,
+                  itemCount: bloodRequestController.filteredRequestsList.length,
                   itemBuilder: (context, index) {
-                    final donor = homeController.filteredDonorsList[index];
-                    return DonorListItem(donor: donor, homeController: homeController);
+                    final donor = bloodRequestController.filteredRequestsList[index];
+                    return DonorListItem(requestEntity: donor, bloodRequestController: bloodRequestController);
                   },
                 );
               }),
@@ -91,40 +90,13 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-  void _showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text("Logout"),
-          content: Text("Are you sure you want to logout?"),
-          actions: <Widget>[
-            TextButton(
-              child: Text("No"),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(); // Dismiss the dialog
-              },
-            ),
-            TextButton(
-              child: Text("Yes"),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(); // Dismiss the dialog
-                homeController.logout(context); // Perform logout
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
 
 class DonorListItem extends StatelessWidget {
-  final SignUpEntity donor;
-  final HomeController homeController;
+  final BloodRequestEntity requestEntity;
+  final BloodRequestController bloodRequestController;
 
-  DonorListItem({required this.donor, required this.homeController});
+  DonorListItem({required this.requestEntity, required this.bloodRequestController});
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +118,7 @@ class DonorListItem extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  donor.bloodGroup,
+                  requestEntity.bloodGroup,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -162,7 +134,7 @@ class DonorListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    donor.name,
+                    requestEntity.patientName,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -170,12 +142,12 @@ class DonorListItem extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    '${donor.country}, ${donor.city ?? ''}',
+                    '${requestEntity.country}, ${requestEntity.city ?? ''}',
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                   SizedBox(height: 4),
                   Text(
-                    'Last Donated: ' + (donor.lastDonatedDate?.split(' ')[0] ?? ''),
+                    requestEntity.bloodGroup + ' is required in ' + requestEntity.hospitalName,
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                 ],
@@ -184,7 +156,7 @@ class DonorListItem extends StatelessWidget {
             // Button to call
             ElevatedButton(
               onPressed: () {
-                homeController.makePhoneCall(donor.phoneNumber); // Call the phone number
+                bloodRequestController.makePhoneCall(requestEntity.phoneNumber); // Call the phone number
               },
               child: Text("Call"),
               style: ElevatedButton.styleFrom(

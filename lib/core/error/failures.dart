@@ -7,6 +7,22 @@ class EmailValidatorFailure extends Failure {
   List<Object?> get props => [];
 }
 
+class PatientNameValidatorFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
+
+class HospitalNameValidatorFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
+
+class PersonalIdentityValidatorFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
+
+
 class PasswordInvalidOrEmptyFailure extends Failure {
   @override
   List<Object?> get props => [];

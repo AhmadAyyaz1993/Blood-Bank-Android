@@ -54,7 +54,7 @@ class AuthController extends GetxController {
         // Set error message
             (userCredential) {
           // Handle successful login (e.g., navigate to home screen)
-          context.go('/home');
+          context.go('/menu');
         },
       );
 
@@ -75,7 +75,7 @@ class AuthController extends GetxController {
             (failure) => errorMessage.value = mapFailureToMessage(failure),
         // Set error message
             (userCredential) {
-                context.go('/home');
+                context.go('/menu');
         },
       );
 
