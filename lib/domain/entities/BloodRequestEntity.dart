@@ -10,6 +10,7 @@ class BloodRequestEntity extends Equatable {
   String? countryCode;
   String? p_number;
   String cnic;
+  String bloodRequiredOn;
 
 
   BloodRequestEntity({ required this.patientName,
@@ -20,7 +21,8 @@ class BloodRequestEntity extends Equatable {
     required this.phoneNumber,
     this.countryCode,
     this.p_number,
-    required this.cnic});
+    required this.cnic,
+    required this.bloodRequiredOn});
 
 
   // Converts the Firestore document data (Map) into a SignUpEntity instance
@@ -35,6 +37,7 @@ class BloodRequestEntity extends Equatable {
       countryCode: map['countryCode'],
       p_number: map['p_number'],
       cnic: map['cnic'] ?? '',
+      bloodRequiredOn: map['bloodRequiredOn'] ?? '',
     );
   }
 
@@ -49,10 +52,11 @@ class BloodRequestEntity extends Equatable {
       'countryCode': countryCode,
       'p_number': p_number,
       'cnic': cnic,
+      'bloodRequiredOn': bloodRequiredOn,
     };
   }
 
 
   @override
-  List<Object?> get props => [ patientName, hospitalName, country,city, bloodGroup, phoneNumber, p_number,countryCode,cnic];
+  List<Object?> get props => [ patientName, hospitalName, country,city, bloodGroup, phoneNumber, p_number,countryCode,cnic,bloodRequiredOn];
 }

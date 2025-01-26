@@ -1,9 +1,6 @@
 import 'package:BloodBank/core/util/validator.dart';
 import 'package:BloodBank/di/injectable_config.dart';
 import 'package:BloodBank/domain/entities/BloodRequestEntity.dart';
-import 'package:csc_picker/csc_picker.dart';
-import 'package:BloodBank/domain/entities/SignUpEntity.dart';
-import 'package:BloodBank/presentation/auth/AuthController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,10 +21,27 @@ class _SignUpScreenState extends State<CreateBloodRequestScreen> {
   final TextEditingController hospitalName = TextEditingController();
   final TextEditingController cnic = TextEditingController();
   final TextEditingController cityController = TextEditingController();
+  final TextEditingController bloodRequiredOn = TextEditingController();
   final bloodRequestController = getIt<BloodRequestController>();
-  final BloodRequestEntity signUpEntity = BloodRequestEntity(patientName: '', hospitalName: '', country: 'Pakistan', city: '', bloodGroup: '', phoneNumber: '', cnic: '');
+  final BloodRequestEntity signUpEntity = BloodRequestEntity(patientName: '', hospitalName: '', country: 'Pakistan', city: '', bloodGroup: '', phoneNumber: '', cnic: '',bloodRequiredOn: '');
   List<String> bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   String selectedBloodGroup = 'A+';
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        bloodRequiredOn.text = "${pickedDate.toLocal()}".split(' ')[0];
+        signUpEntity.bloodRequiredOn = pickedDate.toString();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +144,20 @@ class _SignUpScreenState extends State<CreateBloodRequestScreen> {
                                 child: Text(value),
                               );
                             }).toList(),
+                          ),
+                          SizedBox(height: size.height * 0.03),
+                          TextFormField(
+                            controller: bloodRequiredOn..text = signUpEntity.bloodRequiredOn.split(' ')[0]??'',
+                            readOnly: true,
+                            onTap: () => _selectDate(context),
+                            decoration: InputDecoration(
+                              labelText: "Blood required on?",
+                              hintText: "Select Date",
+                              isDense: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
                           SizedBox(height: size.height * 0.03),
 
