@@ -147,7 +147,7 @@ class DonorListItem extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    requestEntity.bloodGroup + ' is required in ' + requestEntity.hospitalName,
+                    requestEntity.bloodGroup + ' is required in ' + requestEntity.hospitalName + ' on ' + requestEntity.bloodRequiredOn.split(' ')[0]??'',
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                 ],
