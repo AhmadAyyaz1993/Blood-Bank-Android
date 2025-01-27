@@ -21,7 +21,7 @@ class BloodRequestController extends GetxController {
   final FetchBloodRequestsUseCase fetchBloodRequestsUseCase = getIt<FetchBloodRequestsUseCase>();
   final CheckLoginUseCase checkLoginUseCase = getIt<CheckLoginUseCase>();
   final FetchProfileDataUseCase fetchProfileDataUseCase = getIt<FetchProfileDataUseCase>();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
   // Observables to manage UI state
   final Rx<bool> isLoading = Rx<bool>(false); // Tracks login progress
   final Rx<String> errorMessage = Rx<String>('');
@@ -29,6 +29,8 @@ class BloodRequestController extends GetxController {
   final RxList<BloodRequestEntity> requestsList = <BloodRequestEntity>[].obs; // Holds donors list
   final Rx<String> searchQuery = ''.obs; // Holds the search query
   final RxList<BloodRequestEntity> filteredRequestsList = <BloodRequestEntity>[].obs; // Holds the filtered list
+
+  String? loggedInUserEmail;
 
 
   @override
@@ -52,6 +54,7 @@ class BloodRequestController extends GetxController {
         if (user == null) {
           context.go('/login');
         } else {
+          loggedInUserEmail = user.email != null? user.email : "";
           fetchProfileData(context, user.email != null? user.email : "");
         }
       },
@@ -80,10 +83,10 @@ class BloodRequestController extends GetxController {
 
 
   Future<void> createBloodRequest(BuildContext context,BloodRequestEntity bloodRequestEntity) async {
-    if (formKey.currentState!.validate()) {
+    if (formKey3.currentState!.validate()) {
       isLoading.value = true; // Indicate login in progress
       errorMessage.value = ''; // Clear previous error messages
-
+      bloodRequestEntity.email = loggedInUserEmail;
       final result = await createBloodRequestUseCase(
           bloodRequestEntity); // Call use case with arguments
 

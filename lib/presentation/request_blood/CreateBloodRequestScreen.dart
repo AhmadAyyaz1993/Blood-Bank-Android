@@ -3,6 +3,7 @@ import 'package:BloodBank/di/injectable_config.dart';
 import 'package:BloodBank/domain/entities/BloodRequestEntity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:go_router/go_router.dart';
@@ -22,8 +23,9 @@ class _SignUpScreenState extends State<CreateBloodRequestScreen> {
   final TextEditingController cnic = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController bloodRequiredOn = TextEditingController();
+  final TextEditingController bloodQuantityRequired = TextEditingController();
   final bloodRequestController = getIt<BloodRequestController>();
-  final BloodRequestEntity signUpEntity = BloodRequestEntity(patientName: '', hospitalName: '', country: 'Pakistan', city: '', bloodGroup: '', phoneNumber: '', cnic: '',bloodRequiredOn: '');
+  final BloodRequestEntity signUpEntity = BloodRequestEntity(patientName: '', hospitalName: '', country: 'Pakistan', city: '', bloodGroup: '', phoneNumber: '', cnic: '',bloodRequiredOn: '',bloodQuantityRequired: 0);
   List<String> bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   String selectedBloodGroup = 'A+';
 
@@ -62,7 +64,7 @@ class _SignUpScreenState extends State<CreateBloodRequestScreen> {
         ),
         backgroundColor: Colors.redAccent,
         body: Form(
-          key: bloodRequestController.formKey,
+          key: bloodRequestController.formKey3,
           child: Stack(children: [
             SizedBox(
               width: size.width,
@@ -146,6 +148,34 @@ class _SignUpScreenState extends State<CreateBloodRequestScreen> {
                             }).toList(),
                           ),
                           SizedBox(height: size.height * 0.03),
+                          TextFormField(
+                            controller: bloodQuantityRequired,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            onChanged: (value) {
+                              signUpEntity.bloodQuantityRequired = int.tryParse(value) ?? 0;
+                            },
+                            decoration: InputDecoration(
+                              hintText: "Blood quantity required",
+                              isDense: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            validator: (value) {
+                              // Check if value is empty
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter the required blood quantity';
+                              }
+                              // Check if value is a valid number and greater than 0
+                              final quantity = int.tryParse(value);
+                              if (quantity == null || quantity <= 0) {
+                                return 'Blood quantity must be greater than 0';
+                              }
+                              return null; // Valid input
+                            },
+                          ),
+                          SizedBox(height: size.height * 0.02),
                           TextFormField(
                             controller: bloodRequiredOn..text = signUpEntity.bloodRequiredOn.split(' ')[0]??'',
                             readOnly: true,

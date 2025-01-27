@@ -9,8 +9,10 @@ class BloodRequestEntity extends Equatable {
   String phoneNumber;
   String? countryCode;
   String? p_number;
+  String? email;
   String cnic;
   String bloodRequiredOn;
+  int? bloodQuantityRequired;
 
 
   BloodRequestEntity({ required this.patientName,
@@ -22,14 +24,16 @@ class BloodRequestEntity extends Equatable {
     this.countryCode,
     this.p_number,
     required this.cnic,
-    required this.bloodRequiredOn});
+    required this.bloodRequiredOn,
+    this.email,
+    this.bloodQuantityRequired});
 
 
   // Converts the Firestore document data (Map) into a SignUpEntity instance
   factory BloodRequestEntity.fromMap(Map<String, dynamic> map) {
     return BloodRequestEntity(
-      patientName: map['name'] ?? '',
-      hospitalName: map['email'] ?? '',
+      patientName: map['patientName'] ?? '',
+      hospitalName: map['hospitalName'] ?? '',
       country: map['country'] ?? '',
       city: map['city'],
       bloodGroup: map['bloodGroup'] ?? '',
@@ -38,13 +42,15 @@ class BloodRequestEntity extends Equatable {
       p_number: map['p_number'],
       cnic: map['cnic'] ?? '',
       bloodRequiredOn: map['bloodRequiredOn'] ?? '',
+      email: map['email'],
+      bloodQuantityRequired: map['bloodQuantityRequired'] ?? 0,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'name': patientName,
-      'email': hospitalName,
+      'patientName': patientName,
+      'hospitalName': hospitalName,
       'country': country,
       'city': city,
       'bloodGroup': bloodGroup,
@@ -53,10 +59,12 @@ class BloodRequestEntity extends Equatable {
       'p_number': p_number,
       'cnic': cnic,
       'bloodRequiredOn': bloodRequiredOn,
+      'email': email,
+      'bloodQuantityRequired': bloodQuantityRequired,
     };
   }
 
 
   @override
-  List<Object?> get props => [ patientName, hospitalName, country,city, bloodGroup, phoneNumber, p_number,countryCode,cnic,bloodRequiredOn];
+  List<Object?> get props => [ patientName, hospitalName, country,city, bloodGroup, phoneNumber, p_number,countryCode,cnic,bloodRequiredOn,email,bloodQuantityRequired];
 }

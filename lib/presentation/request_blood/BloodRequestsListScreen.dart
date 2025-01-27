@@ -37,7 +37,8 @@ class BloodRequestsListScreen extends StatelessWidget {
           },
           child: Text("Create Blood Request"),
           style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent, // Button color
+              backgroundColor: Colors.white, // Button color
+              foregroundColor: Colors.redAccent
           ),
         ),),
       body: Container(
@@ -147,7 +148,7 @@ class DonorListItem extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    requestEntity.bloodGroup + ' is required in ' + requestEntity.hospitalName + ' on ' + requestEntity.bloodRequiredOn.split(' ')[0]??'',
+                    requestEntity.bloodQuantityRequired.toString() + ' bottle(s) of ' + requestEntity.bloodGroup + ' blood is required in ' + requestEntity.hospitalName + ' on ' + requestEntity.bloodRequiredOn.split(' ')[0]??'',
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                 ],
