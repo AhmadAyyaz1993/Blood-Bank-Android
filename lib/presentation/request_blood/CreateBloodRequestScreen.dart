@@ -30,6 +30,12 @@ class _SignUpScreenState extends State<CreateBloodRequestScreen> {
   String selectedBloodGroup = 'A+';
 
 
+  @override
+  void initState() {
+    super.initState();
+    bloodRequestController.checkUserLogin(context);
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -48,7 +54,7 @@ class _SignUpScreenState extends State<CreateBloodRequestScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    // bloodRequestController.checkUserLoginStatus(context);
+    // bloodRequestController.checkUserLogin(context);
     return Scaffold(
         appBar: AppBar(
           title: Text("Blood Requests"),
